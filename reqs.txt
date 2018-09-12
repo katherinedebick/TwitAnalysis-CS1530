@@ -1,0 +1,19 @@
+Functional Requirements:
+1.) Must be able to make Twitter queries (pull data from twitter)
+2.) Must be able to perform sentiment analysis on english tweets
+3.) Calculate and emotional temperature using aphin-111 scoring table
+4.) Plot tweet emotional temperatures as data points on a graphical display
+5.) Find target topics or words from the sample and show them to the user
+6.) Display weather data from tweet locations alongside tweet emotional temperature data
+7.) User should be able to pull tweets based on a specified date and time range
+8.) Users should be able to export data from any given query
+9.) Sentiment - should be able to handle extraneous words
+10.) Sentiment - should be able to detect non-english tweets and exclude them
+11.) Should be able to identify geographical hot spots based on an overwhelmingly large sample of positive or negative tweets
+
+Non-Functional Requirements:
+1.) Simplistic GUI 
+2.) It should be accessible
+3.) It should be fast 
+4.) It should be tailored to it's user base - businesses, PR, researchers, etc.
+5.) Should contain helper - or tutorial text - that explains the functionality of the site to users

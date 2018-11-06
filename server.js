@@ -53,10 +53,10 @@ app.post('/gettweets', function(req, res){
   var temp_query = new Query(req.body.search_word, req.body.sample_size, req.body.start_date, req.body.end_date);
   tweets2 = [];
   async.until(function(){
-    if(tweets2.length == temp_query.sample_size){
+    if(tweets2.length >= temp_query.sample_size){
       res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets2});
     }
-    return tweets2.length == temp_query.sample_size;
+    return tweets2.length >= temp_query.sample_size;
   }, function process_query(cb){
     var params = {
       q: temp_query.search_word,

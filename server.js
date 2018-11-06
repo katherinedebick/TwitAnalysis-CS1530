@@ -49,8 +49,8 @@ app.post('/gettweets', function(req, res){
   //Until the tweets in tweets2 match the requested sample size or greater, don't render the page
   async.until(function(){
     if(tweets2.length >= temp_query.sample_size){
-      scoreTweets(tweets2);
-      renderPage(tweets2, res);
+      scores = scoreTweets(tweets2);
+      renderPage(tweets2, res, scores);
       //res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets2});
     }
     return tweets2.length >= temp_query.sample_size;
@@ -69,12 +69,15 @@ app.post('/gettweets', function(req, res){
   })
 });
 
+
 function scoreTweets(tweets){
   let scores = [];
   for(var t in tweets){
     var score = getScore(tweets[t]);
+    scores.push(score);
     console.log("Tweet: "+tweets[t]+" Score: "+score);
   }
+  return scores;
 }
 
 function getScore(tweet){
@@ -106,8 +109,8 @@ function parse_String(data){
   return dict;
 }
 
-function renderPage(tweets, res){
-  res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets});
+function renderPage(tweets, res, scores){
+  res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets, scores: scores});
 }
 
 

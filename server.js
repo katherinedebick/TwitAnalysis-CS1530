@@ -11,7 +11,11 @@ var upload = multer();
 
 var Twit = require('twit')
 
-var tweets = [];
+let fs = require('fs');
+var afinnStr = fs.readFileSync('AFINN-111.txt', 'utf8');
+let afinnArr = parse_String(afinnStr);
+
+
 
 var T = new Twit({
   consumer_key: '6uDqrXBSyRpNiXnzzsheLNm7k',
@@ -21,17 +25,6 @@ var T = new Twit({
   timeout_ms: 60*1000,
   strictSSL: true,
 })
-
-function gotData(err, data, response){
-  //return data;
-  var raw_tweets = data.statuses;
-  for (var i=0; i<raw_tweets.length; i++){
-    tweets.push(String(raw_tweets[i].text))
-    //console.log(tweets[i])
-  }
-  //res.render('views/graph', {tweets: tweets});
-  //console.log("DATA: "+data)
-}
 
 const Query = require('./query.js');
 
@@ -44,7 +37,6 @@ app.use(upload.array());
 app.use(express.static('public'));
 
 
-// viewed at http://localhost:8080
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/pages/index.html'));
 });
@@ -52,9 +44,14 @@ app.get('/', function(req, res) {
 app.post('/gettweets', function(req, res){
   var temp_query = new Query(req.body.search_word, req.body.sample_size, req.body.start_date, req.body.end_date);
   tweets2 = [];
+
+  //Begin async Block
+  //Until the tweets in tweets2 match the requested sample size or greater, don't render the page
   async.until(function(){
     if(tweets2.length >= temp_query.sample_size){
-      res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets2});
+      scoreTweets(tweets2);
+      renderPage(tweets2, res);
+      //res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets2});
     }
     return tweets2.length >= temp_query.sample_size;
   }, function process_query(cb){
@@ -71,6 +68,47 @@ app.post('/gettweets', function(req, res){
     });
   })
 });
+
+function scoreTweets(tweets){
+  let scores = [];
+  for(var t in tweets){
+    var score = getScore(tweets[t]);
+    console.log("Tweet: "+tweets[t]+" Score: "+score);
+  }
+}
+
+function getScore(tweet){
+  var tempScore = 0;
+  let tweetSplit = tweet.split(" ");
+  for (var n in tweetSplit){
+    //console.log(tweetSplit[n]);
+    for (var w in afinnArr){
+      if (tweetSplit[n] == afinnArr[w].word){
+        tempScore += parseInt(afinnArr[w].score);
+        //console.log(afinnArr[w].word + " -> score: " + afinnArr[w].score);
+      }
+    }
+  }
+  return tempScore;
+}
+
+//reads in afinn111 string which is tab/newline delimited, saves as JS object/dictionary
+function parse_String(data){
+  let splitData = data.split("\n");
+  var dict = [];
+  for (var n in splitData){
+    var temp = splitData[n].split("\t");
+    dict.push({
+      word: temp[0],
+      score: temp[1]
+    });
+  }
+  return dict;
+}
+
+function renderPage(tweets, res){
+  res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets});
+}
 
 
 app.listen(process.env.PORT || 5000);

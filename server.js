@@ -22,6 +22,10 @@ var T = new Twit(config); //now pulling data from config.js and gitignored
 
 const Query = require('./query.js');
 
+//notify user server is up
+console.log('Server is running...');
+
+
 // for parsing application/json
 app.use(bodyParser.json());
 // for parsing application/xwww-form-urlencoded

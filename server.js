@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
 var async = require('async');;
 
 var path = require('path');
@@ -9,7 +9,8 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var upload = multer();
 
-var Twit = require('twit')
+var Twit = require('twit');
+var config = require('./config'); //use this instead of putting keys in the server file
 
 let fs = require('fs');
 var afinnStr = fs.readFileSync('AFINN-111.txt', 'utf8');
@@ -17,16 +18,13 @@ let afinnArr = parse_String(afinnStr);
 
 
 
-var T = new Twit({
-  consumer_key: '6uDqrXBSyRpNiXnzzsheLNm7k',
-  consumer_secret: 'YRqllIAZugkSXSfZTSdqe3nGDtFrnVmR60u6m2MZqJvPUlZGDX',
-  access_token: '908083862886076416-2cgZ5HRpfa4BFASYL8FtteTmDuCVrj8',
-  access_token_secret: 'X09OZU9yvkL6Vpxu1W56e3dntl2sLmnuiF8SO128jM92W',
-  timeout_ms: 60*1000,
-  strictSSL: true,
-})
+var T = new Twit(config); //now pulling data from config.js and gitignored
 
 const Query = require('./query.js');
+
+//notify user server is up
+console.log('Server is running...');
+
 
 // for parsing application/json
 app.use(bodyParser.json());

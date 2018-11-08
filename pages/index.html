@@ -5,15 +5,27 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-  <h1>Social Pulse</h1>
-  <p>Make a query:</p>
-  <form method="POST" action="/gettweets">
-    <input type="text" name="search_word" value="Search Word">
-    <input type="number" name="sample_size" value="Sample Size">
-    <input type="date" name="start_date" value="Start Date">
-    <input type="date" name="end_date" value="End Date">
-    <input type="submit" value="Calculate Sentiment">
-</form>
+  <div class="container-fluid" style="background-color:#726bb0">
+    <div class="row">
+      <nav class="navbar" style="background-color:#595297; width:100%;">
+        <a class="navbar-brand" href="#"> <img src="../imgs/logo_hor.png" class="img-fluid" alt="Responsive image"> </a>
+        <ul class=>
+
+        </ul>
+      </nav>
+    </div>
+    <h1>Social Pulse</h1>
+    <p>Make a query:</p>
+    <form method="POST" action="/gettweets">
+      <input type="text" name="search_word" value="Search Word">
+      <input type="number" name="sample_size" value="Sample Size">
+      <input type="date" name="start_date" value="Start Date">
+      <input type="date" name="end_date" value="End Date">
+      <input type="submit" value="Calculate Sentiment">
+  </form>
+  <img src="/imgs/logo_hor.png" alt="testalt2">
+  </div>
+
 
 
 <!-- needed for bootstrap css cdn  -->

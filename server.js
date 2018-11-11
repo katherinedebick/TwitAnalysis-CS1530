@@ -1,3 +1,4 @@
+//comment
 var express = require('express');
 var app = express();
 app.set('view engine', 'ejs');
@@ -32,11 +33,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // for parsing multipart/form-data
 app.use(upload.array());
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/pages/index.html'));
+    res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 app.post('/gettweets', function(req, res){

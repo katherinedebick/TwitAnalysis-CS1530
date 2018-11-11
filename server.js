@@ -37,7 +37,7 @@ app.use(express.static('public'));
 
 
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/pages/index.html'));
+    res.sendFile(path.join(__dirname + '/static/pages/index.html'));
 });
 
 app.post('/gettweets', function(req, res){

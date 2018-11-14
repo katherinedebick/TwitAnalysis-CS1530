@@ -21,17 +21,29 @@ describe('server', function(){
 
 describe("helper", function(){
 		describe('getScore', function () {
-		it('should return my non word tweet score as 0', function() {
+		it('"love" input, should return my non word tweet score as 0', function() {
 			score = helper.getScore('asdfasdf asdfasdfasdf asdfasdf');
 			assert.equal(0, score);
 		});
+		
 		it('should return a scored of 3', function() {
 			score = helper.getScore('love');
 			assert.equal(3, score);
 		});
-		it('should return a score of 3', function() {
+		
+		it(' "LOVE" input, should return a score of 3', function() {
 			score = helper.getScore('LOVE');
 			assert.equal(3, score);
+		});
+		
+		it(' "lOvE" input, should return a score of 3', function() {
+			score = helper.getScore('lOvE');
+			assert.equal(3, score);
+		});
+		
+		it(' "hugs and kisses", should return a score of ', function() {
+			score = helper.getScore('hugs and kisses');
+			assert.equal(2, score);
 		});
 	});
 });

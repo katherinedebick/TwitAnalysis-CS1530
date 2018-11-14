@@ -1,8 +1,9 @@
 //comment
 var express = require('express');
+var helper = require('./helper');
 var app = express();
 app.set('view engine', 'ejs');
-var async = require('async');;
+var async = require('async');
 
 var path = require('path');
 
@@ -12,10 +13,6 @@ var upload = multer();
 
 var Twit = require('twit');
 var config = require('./config'); //use this instead of putting keys in the server file
-
-let fs = require('fs');
-var afinnStr = fs.readFileSync('AFINN-111.txt', 'utf8');
-let afinnArr = parse_String(afinnStr);
 
 
 
@@ -48,8 +45,8 @@ app.post('/gettweets', function(req, res){
   //Until the tweets in tweets2 match the requested sample size or greater, don't render the page
   async.until(function(){
     if(tweets2.length >= temp_query.sample_size){
-      scores = scoreTweets(tweets2);
-      renderPage(tweets2, res, scores);
+      scores = helper.scoreTweets(tweets2);
+      helper.renderPage(tweets2, res, scores);
       //res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets2});
     }
     return tweets2.length >= temp_query.sample_size;
@@ -67,50 +64,5 @@ app.post('/gettweets', function(req, res){
     });
   })
 });
-
-
-function scoreTweets(tweets){
-  let scores = [];
-  for(var t in tweets){
-    var score = getScore(tweets[t]);
-    scores.push(score);
-    console.log("Tweet: "+tweets[t]+" Score: "+score);
-  }
-  return scores;
-}
-
-function getScore(tweet){
-  var tempScore = 0;
-  let tweetSplit = tweet.split(" ");
-  for (var n in tweetSplit){
-    //console.log(tweetSplit[n]);
-    for (var w in afinnArr){
-      if (tweetSplit[n] == afinnArr[w].word){
-        tempScore += parseInt(afinnArr[w].score);
-        //console.log(afinnArr[w].word + " -> score: " + afinnArr[w].score);
-      }
-    }
-  }
-  return tempScore;
-}
-
-//reads in afinn111 string which is tab/newline delimited, saves as JS object/dictionary
-function parse_String(data){
-  let splitData = data.split("\n");
-  var dict = [];
-  for (var n in splitData){
-    var temp = splitData[n].split("\t");
-    dict.push({
-      word: temp[0],
-      score: temp[1]
-    });
-  }
-  return dict;
-}
-
-function renderPage(tweets, res, scores){
-  res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets, scores: scores});
-}
-
 
 app.listen(process.env.PORT || 5000);

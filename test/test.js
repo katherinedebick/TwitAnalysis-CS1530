@@ -1,7 +1,10 @@
 //test.js
 
 
-var server = require('../server'), http = require('http'), assert = require('assert');
+var server = require('../server');
+var http = require('http')
+var assert = require('assert');
+var helper = require('../helper');
 describe('server', function(){
 	beforeEach(function () {
 	});
@@ -14,11 +17,13 @@ describe('server', function(){
 			});
 		});
 	});
-	
-	describe('getScore', function () {
+});
+
+describe("helper", function(){
+		describe('getScore', function () {
 		it('should return my non word tweet score as 0', function() {
-			score = getScore('asdfasdf asdfasdfasdf asdfasdf');
-			console.log(score);
+			score = helper.getScore('asdfasdf asdfasdfasdf asdfasdf');
+			assert.equal(0, score);
 		});
 	});
 });

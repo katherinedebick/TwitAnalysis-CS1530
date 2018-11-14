@@ -25,6 +25,14 @@ describe("helper", function(){
 			score = helper.getScore('asdfasdf asdfasdfasdf asdfasdf');
 			assert.equal(0, score);
 		});
+		it('should return a scored of 3', function() {
+			score = helper.getScore('love');
+			assert.equal(3, score);
+		});
+		it('should return a score of 3', function() {
+			score = helper.getScore('LOVE');
+			assert.equal(3, score);
+		});
 	});
 });
 

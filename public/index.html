@@ -5,15 +5,16 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-  <div class="container-fluid" style="background-color:#726bb0">
+  <div class="container-fluid pb-2" style="background-color:#726bb0">
+    <!-- start of navbar -->
     <div class="row">
       <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#595297; width:100%;">
         <a class="navbar-brand" href="#"><img src= "/images/logo_hor.png" class="img-fluid" alt="Responsive image10"> </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
          <ul class="navbar-nav mr-auto">
-           <li class="nav-item active">
+           <!-- <li class="nav-item active">
              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-           </li>
+           </li> -->
            <li class="nav-item">
              <a class="nav-link" href="about.html">About</a>
            </li>
@@ -30,17 +31,33 @@
        </div>
       </nav>
     </div>
-    <h1>Social Pulse</h1>
-    <p>Make a query:</p>
-    <form method="POST" action="/gettweets">
-      <input type="text" name="search_word" value="Search Word">
-      <input type="number" name="sample_size" value="Sample Size">
-      <input type="date" name="start_date" value="Start Date">
-      <input type="date" name="end_date" value="End Date">
-      <input type="submit" value="Calculate Sentiment">
-    </form>
+    <!-- start of jumbotron -->
+    <div class="jumbotron jumbotron-fluid" style="padding-top:0px">
+
+        <img src="/images/logoicon.png" alt="logoicon" style="display:block; margin-left:auto; margin-right:auto">
+
+       <hr class="my-4">
+       <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+       <p class="lead">
+         <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+       </p>
+     </div>
+    <!-- start of query fields -->
+    <div class="queryHalf" style="background-color:#ffffff; height:500px">
+      <p>Make a query:</p>
+      <form method="POST" action="/gettweets">
+        <input type="text" name="search_word" value="Search Word">
+        <input type="number" name="sample_size" value="Sample Size">
+        <input type="date" name="start_date" value="Start Date">
+        <input type="date" name="end_date" value="End Date">
+        <input type="submit" value="Calculate Sentiment">
+      </form>
+    </div>
+    <!-- end of queryhalf div -->
+
 
   </div>
+  <!-- end of container div -->
 
 
 <!-- needed for bootstrap css cdn  -->

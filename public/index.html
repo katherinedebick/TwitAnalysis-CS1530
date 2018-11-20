@@ -45,35 +45,37 @@
        </div>
     </div>
 
-    <div class="bottomHalf" style="background-color:#ffffff; height:500px; padding-top:3%">
+    <div class="bottomHalf" style="background-color:#ffffff; width: 100%; height:500px; padding-top:3%">
       <!-- start of query fields -->
       <form method="POST" action="/gettweets">
         <div class="form-group" >
-          <div class="input-group mb-2">
+          <div class="input-group mb-2 ml-2">
             <div class="input-group-prepend">
               <div class="input-group-text"><span class="fas fa-search"></div>
             </div>
             <input type="text" class="form-control" id="inlineFormInputGroup" name="search_word" placeholder="Search Word" size="35">
           </div>
-          <div class="input-group mb-2">
+          <div class="input-group mb-2 ml-2">
             <div class="input-group-prepend">
               <div class="input-group-text"><span class="fas fa-list-ol"></div>
             </div>
             <input type="number" class="form-control" id="inlineFormInput"  name="sample_size"  placeholder="Sample Size">
           </div>
-          <div class="input-group mb-2">
+          <div class="input-group mb-2 ml-2">
             <div class="input-group-prepend">
               <div class="input-group-text"><span class="fas fa-calendar-alt"></div>
             </div>
             <input type="date" class="form-control" id="inlineFormInput"  name="start_date" placeholder="Start Date">
           </div>
-          <div class="input-group mb-2">
+          <div class="input-group mb-2 ml-2">
             <div class="input-group-prepend">
               <div class="input-group-text"><span class="far fa-calendar-alt"></div>
             </div>
             <input type="date" class="form-control" id="inlineFormInput"  name="end_date" placeholder="End Date">
           </div>
-          <button type="submit" class="btn btn-primary" value="Calculate Sentiment" style="background-color:#726bb0">Calculate Sentiment</button>
+          <div class="buttonDiv" style="width: 100%; display: block; margin-top: 2%; margin-left: auto; margin-right: auto">
+            <button type="submit" class="btn" value="Calculate Sentiment" style="background-color:#9a93d7; color:#ffffff">Calculate Sentiment</button>
+          </div>
         </div>
         <!-- end of first form div -->
       </form>

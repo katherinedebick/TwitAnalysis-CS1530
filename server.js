@@ -75,10 +75,9 @@ app.post('/gettweets', function(req, res){
 
 function scoreTweets(tweets){
   let scores = [];
-  for(var t in tweets){
-    var score = getScore(tweets[t]);
-    scores.push(score);
-    console.log("Tweet: "+tweets[t]+" Score: "+score);
+  for (var t in tweets) {
+    scores.push(getScore(tweets[t]));
+    console.log("Tweet: " +tweets[t]+ " Score: " + score);
   }
   return scores;
 }

@@ -1,27 +1,29 @@
 //comment
 var express = require('express');
 var app = express();
-app.set('view engine', 'ejs');
 var async = require('async');;
-
 var path = require('path');
-
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var upload = multer();
-
 var Twit = require('twit');
 var config = require('./config'); //use this instead of putting keys in the server file
-
 let fs = require('fs');
+
 var afinnStr = fs.readFileSync('AFINN-111.txt', 'utf8');
 let afinnArr = parse_String(afinnStr);
-
-
-
+//set up Twitter API connection
 var T = new Twit(config); //now pulling data from config.js and gitignored
 
 const Query = require('./query.js');
+
+
+//configure EJS templating
+app.set('view engine', 'ejs');
+//tell app what dir we want for views
+app.set('views', path.join(__dirname, 'views'));
+
+
 
 //notify user server is up
 console.log('Server is running...');
@@ -33,7 +35,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // for parsing multipart/form-data
 app.use(upload.array());
-app.use(express.static("public"));
+
+// Set static path
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.get('/', function(req, res) {
@@ -113,4 +117,6 @@ function renderPage(tweets, res, scores){
 }
 
 
-app.listen(process.env.PORT || 5000);
+app.listen(5000, function(){
+  console.log('server started on Port 5000...'); `  `
+})

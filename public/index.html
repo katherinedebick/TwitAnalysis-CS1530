@@ -48,12 +48,15 @@
     <div class="bottomHalf" style="background-color:#ffffff; height:500px; padding-top:3%">
       <!-- start of query fields -->
       <form method="POST" action="/gettweets">
-        <div class="form-group" style="display:inline">
+        <div class="form-group" >
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text"><span class="fas fa-search"></div>
             </div>
             <input type="text" class="form-control" id="inlineFormInputGroup" name="search_word" placeholder="Search Word" size="35">
+            <small id="passwordHelpBlock" class="form-text text-muted">
+              Search Twitter for any word or phrase.
+            </small>
           </div>
           <div class="input-group mb-2">
             <div class="input-group-prepend">
@@ -73,7 +76,7 @@
             </div>
             <input type="date" class="form-control" id="inlineFormInput"  name="end_date" placeholder="End Date">
           </div>
-          <button type="submit" class="btn btn-primary" value="Calculate Sentiment" style="background-color:#726bb0">Submit</button>
+          <button type="submit" class="btn btn-primary" value="Calculate Sentiment" style="background-color:#726bb0">Calculate Sentiment</button>
         </div>
         <!-- end of first form div -->
       </form>

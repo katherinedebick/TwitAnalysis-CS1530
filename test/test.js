@@ -41,7 +41,7 @@ describe("helper", function(){
 			assert.equal(3, score);
 		});
 		
-		it(' "hugs and kisses", should return a score of ', function() {
+		it(' "hugs and kisses", should return a score of 2', function() {
 			score = helper.getScore('hugs and kisses');
 			assert.equal(2, score);
 		});

@@ -23,12 +23,6 @@ app.set('view engine', 'ejs');
 //tell app what dir we want for views
 app.set('views', path.join(__dirname, 'views'));
 
-
-
-//notify user server is up
-console.log('Server is running...');
-
-
 // for parsing application/json
 app.use(bodyParser.json());
 // for parsing application/xwww-form-urlencoded
@@ -41,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/index.html'));
+    res.render('index.ejs');
 });
 
 app.post('/gettweets', function(req, res){
@@ -76,8 +70,9 @@ app.post('/gettweets', function(req, res){
 function scoreTweets(tweets){
   let scores = [];
   for (var t in tweets) {
-    scores.push(getScore(tweets[t]));
-    console.log("Tweet: " +tweets[t]+ " Score: " + score);
+    var score = getScore(tweets[t]);
+    scores.push(score);
+    console.log("Tweet: " + tweets[t] + " Score: " + score);
   }
   return scores;
 }

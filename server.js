@@ -42,50 +42,29 @@ app.get('/', function(req, res) {
 
 app.post('/gettweets', function(req, res){
   var temp_query = new Query(req.body.search_word, req.body.sample_size, req.body.start_date, req.body.end_date);
-  var masterObject = processQuery(temp_query); // object contains: list of raw twitter tweet objects (.data),
+  var masterObject = {}; // object contains: list of raw twitter tweet objects (.data),
                                                //list of tweet statuses as strings(.statusStrings)
-  var scores = scoreTweets(masterObject.statusStrings);
-  var tweets
-  renderPage(masterObject.statusStrings, res, scores);
+  //var scores = scoreTweets(masterObject.statusStrings);
+  //Begin async Block
+  //Until the tweets in tweetStatusList match the requested sample size or greater, don't render the page
+  async.until(function(){
+    if(masterObject.statusStrings.length >= temp_query.sample_size){
+      scores = scoreTweets(masterObject.statusStrings);
+      renderPage(masterObject.statusStrings, res, scores);
+    }
+    return masterObject.statusStrings.length >= temp_query.sample_size;
+  }, function processQueryHelper(cb){
+    masterObject = processQuery(temp_query);
+    cb();
+  }); //end of processQueryHelper, end of .until function argument list
 
 
-  //var tweetObjects = getTweetsHelper(req,res); //page renders from inside function
-});
+}); //end of app.post
 
-
-//***working function before changes***
-// app.post('/gettweets', function(req, res){
-//   var temp_query = new Query(req.body.search_word, req.body.sample_size, req.body.start_date, req.body.end_date);
-//   tweets2 = []; //just tweet string
-//
-//   //Begin async Block
-//   //Until the tweets in tweets2 match the requested sample size or greater, don't render the page
-//   async.until(function(){
-//     if(tweets2.length >= temp_query.sample_size){
-//       scores = scoreTweets(tweets2);
-//       renderPage(tweets2, res, scores);
-//       //res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets2});
-//     }
-//     return tweets2.length >= temp_query.sample_size;
-//   }, function process_query(cb){
-//     var params = {
-//       q: temp_query.search_word,
-//       count: temp_query.sample_size
-//     }
-//     T.get('search/tweets', params, function(err, data, response){
-//       // console.log('data: ' + data.statuses[0].created_at);
-//       //console.log('data: ' + JSON.stringify(data));
-//       var raw_tweets = data.statuses;
-//       for (var i=0; i<raw_tweets.length; i++){
-//         tweets2.push(String(raw_tweets[i].text));
-//       }
-//       cb();
-//     });
-//   })
-// });
-
+/**helpers**/
 function processQuery(temp_query){
   var _masterObject = {};
+  var tweetStatusList = [];
   var params = {
     q: temp_query.search_word,
     count: temp_query.sample_size
@@ -93,12 +72,12 @@ function processQuery(temp_query){
   T.get('search/tweets', params, function(err, data, response){
     // console.log('data: ' + data.statuses[0].created_at);
     //console.log('data: ' + JSON.stringify(data));
-    _masterObject.data = data;
+    _masterObject.data = data; //saves the raw tweet object list from twitter for use in caller
     var raw_tweets = data.statuses;
     for (var i=0; i<raw_tweets.length; i++){
       tweetStatusList.push(String(raw_tweets[i].text));
     }
-    _masterObject.statusStrings = tweetStatusList;
+    _masterObject.statusStrings = tweetStatusList; //saves the string list version of tweet status for use in caller
   });
   return _masterObject;
 }
@@ -109,7 +88,7 @@ function getTweetsHelper(req, res) {
   var tweetStatusList = []; //strings
 
   //Begin async Block
-  //Until the tweets in tweets2 match the requested sample size or greater, don't render the page
+  //Until the tweets in tweetStatusList match the requested sample size or greater, don't render the page
   async.until(function(){
     if(tweetStatusList.length >= temp_query.sample_size){
       scores = scoreTweets(tweetStatusList);
@@ -139,7 +118,7 @@ function scoreTweets(tweets){
   for (var t in tweets) {
     var score = getScore(tweets[t]);
     scores.push(score);
-    //console.log("Tweet: " + tweets[t] + " Score: " + score);
+    console.log("Tweet: " + tweets[t] + " Score: " + score);
   }
   return scores;
 }
@@ -174,6 +153,7 @@ function parse_String(data){
 }
 
 function renderPage(tweets, res, scores){
+  //console.log('TWEETS FROM RENDER FN: ' + tweets);
   res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets, scores: scores});
 }
 

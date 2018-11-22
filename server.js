@@ -42,8 +42,9 @@ app.get('/', function(req, res) {
 
 app.post('/gettweets', function(req, res){
   var temp_query = new Query(req.body.search_word, req.body.sample_size, req.body.start_date, req.body.end_date);
-  var masterObject = {}; // object contains: list of raw twitter tweet objects (.data),
+  var masterObject; // object contains: list of raw twitter tweet objects (.data),
                                                //list of tweet statuses as strings(.statusStrings)
+                                              //object is built from return value from processQuery function
   //var scores = scoreTweets(masterObject.statusStrings);
   //Begin async Block
   //Until the tweets in tweetStatusList match the requested sample size or greater, don't render the page

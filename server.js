@@ -42,7 +42,9 @@ app.get('/', function(req, res) {
 
 app.post('/gettweets', function(req, res){
   var temp_query = new Query(req.body.search_word, req.body.sample_size, req.body.start_date, req.body.end_date);
-  var masterObject; // object contains: list of raw twitter tweet objects (.data),
+  masterObject = {}; // object contains: list of raw twitter tweet objects (.data),
+  masterObject.statusStrings = [];
+
                                                //list of tweet statuses as strings(.statusStrings)
                                               //object is built from return value from processQuery function
   //var scores = scoreTweets(masterObject.statusStrings);
@@ -55,8 +57,19 @@ app.post('/gettweets', function(req, res){
     }
     return masterObject.statusStrings.length >= temp_query.sample_size;
   }, function processQueryHelper(cb){
-    masterObject = processQuery(temp_query);
-    cb();
+    var _masterObject = {};
+    var tweetStatusList = [];
+    var params = {
+      q: temp_query.search_word,
+      count: temp_query.sample_size
+    }
+    T.get('search/tweets', params, function(err, data, response){
+      var raw_tweets = data.statuses;
+      for (var i=0; i<raw_tweets.length; i++){
+        masterObject.statusStrings.push(String(raw_tweets[i].text));
+      }
+      cb();
+    });
   }); //end of processQueryHelper, end of .until function argument list
 
 

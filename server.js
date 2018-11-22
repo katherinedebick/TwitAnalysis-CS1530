@@ -10,6 +10,8 @@ var Twit = require('twit');
 var config = require('./config'); //use this instead of putting keys in the server file
 let fs = require('fs');
 
+
+
 var afinnStr = fs.readFileSync('AFINN-111.txt', 'utf8');
 let afinnArr = parse_String(afinnStr);
 //set up Twitter API connection
@@ -40,18 +42,23 @@ app.get('/', function(req, res) {
 
 app.post('/gettweets', function(req, res){
   var temp_query = new Query(req.body.search_word, req.body.sample_size, req.body.start_date, req.body.end_date);
-  tweets2 = [];
+  masterObject = {}; // object contains: list of raw twitter tweet objects (.data),
+  masterObject.statusStrings = [];
 
+                                               //list of tweet statuses as strings(.statusStrings)
+                                              //object is built from return value from processQuery function
+  //var scores = scoreTweets(masterObject.statusStrings);
   //Begin async Block
-  //Until the tweets in tweets2 match the requested sample size or greater, don't render the page
+  //Until the tweets in tweetStatusList match the requested sample size or greater, don't render the page
   async.until(function(){
-    if(tweets2.length >= temp_query.sample_size){
-      scores = scoreTweets(tweets2);
-      renderPage(tweets2, res, scores);
-      //res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets2});
+    if(masterObject.statusStrings.length >= temp_query.sample_size){
+      scores = scoreTweets(masterObject.statusStrings);
+      renderPage(masterObject.statusStrings, res, scores);
     }
-    return tweets2.length >= temp_query.sample_size;
-  }, function process_query(cb){
+    return masterObject.statusStrings.length >= temp_query.sample_size;
+  }, function processQueryHelper(cb){
+    var _masterObject = {};
+    var tweetStatusList = [];
     var params = {
       q: temp_query.search_word,
       count: temp_query.sample_size
@@ -59,13 +66,66 @@ app.post('/gettweets', function(req, res){
     T.get('search/tweets', params, function(err, data, response){
       var raw_tweets = data.statuses;
       for (var i=0; i<raw_tweets.length; i++){
-        tweets2.push(String(raw_tweets[i].text));
+        masterObject.statusStrings.push(String(raw_tweets[i].text));
+      }
+      cb();
+    });
+  }); //end of processQueryHelper, end of .until function argument list
+
+
+}); //end of app.post
+
+/**helpers**/
+function processQuery(temp_query){
+  var _masterObject = {};
+  var tweetStatusList = [];
+  var params = {
+    q: temp_query.search_word,
+    count: temp_query.sample_size
+  }
+  T.get('search/tweets', params, function(err, data, response){
+    // console.log('data: ' + data.statuses[0].created_at);
+    //console.log('data: ' + JSON.stringify(data));
+    _masterObject.data = data; //saves the raw tweet object list from twitter for use in caller
+    var raw_tweets = data.statuses;
+    for (var i=0; i<raw_tweets.length; i++){
+      tweetStatusList.push(String(raw_tweets[i].text));
+    }
+    _masterObject.statusStrings = tweetStatusList; //saves the string list version of tweet status for use in caller
+  });
+  return _masterObject;
+}
+
+
+function getTweetsHelper(req, res) {
+  var temp_query = new Query(req.body.search_word, req.body.sample_size, req.body.start_date, req.body.end_date);
+  var tweetStatusList = []; //strings
+
+  //Begin async Block
+  //Until the tweets in tweetStatusList match the requested sample size or greater, don't render the page
+  async.until(function(){
+    if(tweetStatusList.length >= temp_query.sample_size){
+      scores = scoreTweets(tweetStatusList);
+      renderPage(tweetStatusList, res, scores);
+      //res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets2});
+    }
+    return tweetStatusList.length >= temp_query.sample_size;
+  }, function process_query(cb){
+    var params = {
+      q: temp_query.search_word,
+      count: temp_query.sample_size
+    }
+    T.get('search/tweets', params, function(err, data, response){
+      // console.log('data: ' + data.statuses[0].created_at);
+      //console.log('data: ' + JSON.stringify(data));
+      var raw_tweets = data.statuses;
+      for (var i=0; i<raw_tweets.length; i++){
+        tweetStatusList.push(String(raw_tweets[i].text));
       }
       cb();
     });
   })
-});
-
+}
 
 function scoreTweets(tweets){
   let scores = [];
@@ -107,6 +167,7 @@ function parse_String(data){
 }
 
 function renderPage(tweets, res, scores){
+  //console.log('TWEETS FROM RENDER FN: ' + tweets);
   res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets, scores: scores});
 }
 

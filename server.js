@@ -53,6 +53,9 @@ app.post('/gettweets', function(req, res){
   async.until(function(){
     if(masterObject.statusStrings.length >= temp_query.sample_size){
       scores = scoreTweets(masterObject.statusStrings);
+      //experimenting
+      getWeatherData(masterObject);
+
       renderPage(masterObject.statusStrings, res, scores);
     }
     return masterObject.statusStrings.length >= temp_query.sample_size;
@@ -65,9 +68,19 @@ app.post('/gettweets', function(req, res){
     }
     T.get('search/tweets', params, function(err, data, response){
       var raw_tweets = data.statuses;
+      masterObject.data = data;
+      //console.log('data: ' + JSON.stringify(data));
       for (var i=0; i<raw_tweets.length; i++){
-        masterObject.statusStrings.push(String(raw_tweets[i].text));
+        //check if tweet is written in English
+        if (String(raw_tweets[i].lang) == 'en') {
+          masterObject.statusStrings.push(String(raw_tweets[i].text));
+        }
       }
+      // //TO DO check if no tweets were added / matched search criteria
+      // //putting check here in case criteria is matched but all tweets are non-english
+      // if (i == raw_tweets.length-1 && masterObject.statusStrings.length == 0) {
+      //
+      // }
       cb();
     });
   }); //end of processQueryHelper, end of .until function argument list
@@ -76,6 +89,11 @@ app.post('/gettweets', function(req, res){
 }); //end of app.post
 
 /**helpers**/
+
+function getWeatherData(masterObject) {
+
+}
+
 function processQuery(temp_query){
   var _masterObject = {};
   var tweetStatusList = [];

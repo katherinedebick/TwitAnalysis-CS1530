@@ -9,7 +9,11 @@ var upload = multer();
 var Twit = require('twit');
 var config = require('./config'); //use this instead of putting keys in the server file
 let fs = require('fs');
-
+const OpenWeatherMapHelper = require('openweathermap-node');
+const helper = new OpenWeatherMapHelper({
+  APPID: 'd8dfe68ffd082d3b189b28e87fe76264',
+  units: "imperial"
+});
 
 
 var afinnStr = fs.readFileSync('AFINN-111.txt', 'utf8');
@@ -42,21 +46,16 @@ app.get('/', function(req, res) {
 
 app.post('/gettweets', function(req, res){
   var temp_query = new Query(req.body.search_word, req.body.sample_size, req.body.start_date, req.body.end_date);
-  masterObject = {}; // object contains: list of raw twitter tweet objects (.data),
+  masterObject = {}; // object will contain: list of raw twitter tweet objects (.data),
+                    //list of tweet statuses as strings(.statusStrings)
   masterObject.statusStrings = [];
-
-                                               //list of tweet statuses as strings(.statusStrings)
-                                              //object is built from return value from processQuery function
-  //var scores = scoreTweets(masterObject.statusStrings);
   //Begin async Block
   //Until the tweets in tweetStatusList match the requested sample size or greater, don't render the page
   async.until(function(){
     if(masterObject.statusStrings.length >= temp_query.sample_size){
       scores = scoreTweets(masterObject.statusStrings);
-      //experimenting
-      getWeatherData(masterObject);
-
       renderPage(masterObject.statusStrings, res, scores);
+      console.log('locations grabbed: ' + masterObject.countercounter);
     }
     return masterObject.statusStrings.length >= temp_query.sample_size;
   }, function processQueryHelper(cb){
@@ -74,6 +73,11 @@ app.post('/gettweets', function(req, res){
         //check if tweet is written in English
         if (String(raw_tweets[i].lang) == 'en') {
           masterObject.statusStrings.push(String(raw_tweets[i].text));
+          //experimenting
+          getWeatherData(masterObject);
+          // console.log('master: ' + masterObject.data.statuses.length);
+          // console.log('raw :' + raw_tweets.length);
+
         }
       }
       // //TO DO check if no tweets were added / matched search criteria
@@ -83,6 +87,7 @@ app.post('/gettweets', function(req, res){
       // }
       cb();
     });
+
   }); //end of processQueryHelper, end of .until function argument list
 
 
@@ -91,58 +96,26 @@ app.post('/gettweets', function(req, res){
 /**helpers**/
 
 function getWeatherData(masterObject) {
-
-}
-
-function processQuery(temp_query){
-  var _masterObject = {};
-  var tweetStatusList = [];
-  var params = {
-    q: temp_query.search_word,
-    count: temp_query.sample_size
-  }
-  T.get('search/tweets', params, function(err, data, response){
-    // console.log('data: ' + data.statuses[0].created_at);
-    //console.log('data: ' + JSON.stringify(data));
-    _masterObject.data = data; //saves the raw tweet object list from twitter for use in caller
-    var raw_tweets = data.statuses;
-    for (var i=0; i<raw_tweets.length; i++){
-      tweetStatusList.push(String(raw_tweets[i].text));
+  var counter = 0;
+  //loop through tweets, check long/lat for weather conditions
+  for (var i = 0; i < masterObject.data.statuses.length; i++) {
+    //check if location is provided
+    if (masterObject.data.statuses.coordinates != null) {
+      helper.getCurrentWeatherByGeoCoordinates(masterObject.data.statuses[i].coordinates[0], masterObject.data.statuses[i].coordinates[0], (err, currentWeather) => {
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(currentWeather);
+            counter++;
+        }
+      });
     }
-    _masterObject.statusStrings = tweetStatusList; //saves the string list version of tweet status for use in caller
-  });
-  return _masterObject;
-}
-
-
-function getTweetsHelper(req, res) {
-  var temp_query = new Query(req.body.search_word, req.body.sample_size, req.body.start_date, req.body.end_date);
-  var tweetStatusList = []; //strings
-
-  //Begin async Block
-  //Until the tweets in tweetStatusList match the requested sample size or greater, don't render the page
-  async.until(function(){
-    if(tweetStatusList.length >= temp_query.sample_size){
-      scores = scoreTweets(tweetStatusList);
-      renderPage(tweetStatusList, res, scores);
-      //res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets2});
+    else {
+      console.log('No exact location provided.')
     }
-    return tweetStatusList.length >= temp_query.sample_size;
-  }, function process_query(cb){
-    var params = {
-      q: temp_query.search_word,
-      count: temp_query.sample_size
-    }
-    T.get('search/tweets', params, function(err, data, response){
-      // console.log('data: ' + data.statuses[0].created_at);
-      //console.log('data: ' + JSON.stringify(data));
-      var raw_tweets = data.statuses;
-      for (var i=0; i<raw_tweets.length; i++){
-        tweetStatusList.push(String(raw_tweets[i].text));
-      }
-      cb();
-    });
-  })
+  } //end of for loop
+  return counter;
 }
 
 function scoreTweets(tweets){

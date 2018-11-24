@@ -1,7 +1,7 @@
 const OpenWeatherMapHelper = require("openweathermap-node");
 const helper = new OpenWeatherMapHelper(
     {
-        APPID: 'YOUR_OPENWEATHERMAP_API_KEY_GOES_HERE', //get key from AlexIntialProjectNotes.docx
+        APPID: 'd8dfe68ffd082d3b189b28e87fe76264', //get key from AlexIntialProjectNotes.docx
         units: "metric"
     }
 );

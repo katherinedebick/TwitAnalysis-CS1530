@@ -49,13 +49,14 @@ app.post('/gettweets', function(req, res){
   masterObject = {}; // object will contain: list of raw twitter tweet objects (.data),
                     //list of tweet statuses as strings(.statusStrings)
   masterObject.statusStrings = [];
+  var weatherCounter = 0;
   //Begin async Block
   //Until the tweets in tweetStatusList match the requested sample size or greater, don't render the page
   async.until(function(){
     if(masterObject.statusStrings.length >= temp_query.sample_size){
       scores = scoreTweets(masterObject.statusStrings);
       renderPage(masterObject.statusStrings, res, scores);
-      console.log('locations grabbed: ' + masterObject.countercounter);
+      console.log('locations grabbed: ' + weatherCounter);
     }
     return masterObject.statusStrings.length >= temp_query.sample_size;
   }, function processQueryHelper(cb){
@@ -74,7 +75,7 @@ app.post('/gettweets', function(req, res){
         if (String(raw_tweets[i].lang) == 'en') {
           masterObject.statusStrings.push(String(raw_tweets[i].text));
           //experimenting
-          getWeatherData(masterObject);
+          weatherCounter = getWeatherData(masterObject);
           // console.log('master: ' + masterObject.data.statuses.length);
           // console.log('raw :' + raw_tweets.length);
 
@@ -100,16 +101,17 @@ function getWeatherData(masterObject) {
   //loop through tweets, check long/lat for weather conditions
   for (var i = 0; i < masterObject.data.statuses.length; i++) {
     //check if location is provided
-    if (masterObject.data.statuses.coordinates != null) {
-      helper.getCurrentWeatherByGeoCoordinates(masterObject.data.statuses[i].coordinates[0], masterObject.data.statuses[i].coordinates[0], (err, currentWeather) => {
-        if(err){
-            console.log(err);
-        }
-        else{
-            console.log(currentWeather);
-            counter++;
-        }
-      });
+    if (masterObject.data.statuses[i].place != null) {
+      // helper.getCurrentWeatherByGeoCoordinates(masterObject.data.statuses[i].coordinates[0], masterObject.data.statuses[i].coordinates[0], (err, currentWeather) => {
+      //   if(err){
+      //       console.log(err);
+      //   }
+      //   else{
+      //       console.log(currentWeather);
+      //       counter++;
+      //   }
+      // });
+      counter++;
     }
     else {
       console.log('No exact location provided.')
@@ -123,7 +125,7 @@ function scoreTweets(tweets){
   for (var t in tweets) {
     var score = getScore(tweets[t]);
     scores.push(score);
-    console.log("Tweet: " + tweets[t] + " Score: " + score);
+    //console.log("Tweet: " + tweets[t] + " Score: " + score);
   }
   return scores;
 }

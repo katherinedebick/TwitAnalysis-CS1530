@@ -103,6 +103,8 @@ app.post('/gettweets', function(req, res){
 TODO: Right now, place.name is not always returning a city, sometimes its a state...in those cases
 openweathermap is returning a "cant find city error". We're getting closer!
 I've commented out the weather grabbing for now to see what place information is being used in a readible format.
+Also not that due to the async.until function I beleive we're getting duplicate city data since its calling
+getWeatherData multiple times. We need to figure out how to fix this. 
 */
 function getWeatherData(singleStatus) {
   console.log(String(singleStatus.place.name));
@@ -117,10 +119,6 @@ function getWeatherData(singleStatus) {
   //
   //     }
   // });
-
-    // else {
-    //   console.log('No exact location provided.')
-    // }
     return 1;
 }
 

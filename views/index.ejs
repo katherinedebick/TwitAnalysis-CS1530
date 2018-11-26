@@ -15,7 +15,7 @@
 
 <div class="bottomHalf" style="background-color:#ffffff; width: 100%; height:500px; padding-top:3%">
 <!-- start of query fields -->
-<form method="POST" action="/gettweets">
+<form method="POST" action="/showResults">
   <div class="form-group" >
     <div class="input-group mb-2 ml-2">
       <div class="input-group-prepend">
@@ -42,7 +42,8 @@
       <input type="date" class="form-control" id="inlineFormInput"  name="end_date" placeholder="End Date">
     </div>
     <div class="buttonDiv" style="width: 100%; display: block; margin-top: 2%; margin-left: auto; margin-right: auto">
-      <button type="submit" class="btn" value="Calculate Sentiment" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Calculate Sentiment</button>
+      <!-- <button type="submit" class="btn" value="Show Tweets" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Show Tweets</button> -->
+      <button method="POST" action="/showResults" type="submit" class="btn" value="Calculate Sentiment" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Calculate Sentiment</button>
     </div>
   </div>
   <!-- end of first form div -->

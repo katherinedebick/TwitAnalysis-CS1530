@@ -113,9 +113,18 @@ app.post('/showResults', function(req, res){
       //more NLP to improve scores
 
       //calculate score average
-
+      var scoreAverage = (scores.reduce((a, b) => a + b, 0)) / scores.length;
+      var numNegTweets = scores.reduce(function(acc, x) {
+        return x < 0 ? acc + 1 : acc;
+      }, 0);
+      var numPosTweets = scores.reduce(function(acc, x) {
+        return x > 0 ? acc + 1 : acc;
+      }, 0);
+      var numNeutralTweets = scores.reduce(function(acc, x) {
+        return x == 0 ? acc + 1 : acc;
+      }, 0);
       // render results page
-      renderPage(masterObject.statusStrings, res, scores);
+      res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets});
       console.log('locations grabbed: ' + weatherCounter);
     }
     return masterObject.statusStrings.length >= temp_query.sample_size;
@@ -184,6 +193,7 @@ function getWeatherData(singleStatus) {
     return 1;
 }
 
+
 function scoreTweets(tweets){
   let scores = [];
   for (var t in tweets) {
@@ -222,6 +232,7 @@ function parse_String(data){
   }
   return dict;
 }
+
 
 function renderPage(tweets, res, scores, pageName){
   //console.log('TWEETS FROM RENDER FN: ' + tweets);

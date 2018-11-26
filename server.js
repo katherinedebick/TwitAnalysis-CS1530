@@ -14,10 +14,10 @@ const helper = new OpenWeatherMapHelper({
   APPID: 'd8dfe68ffd082d3b189b28e87fe76264',
   units: "imperial"
 });
-
+const helperFunctions = require('./helpers');
 
 var afinnStr = fs.readFileSync('AFINN-111.txt', 'utf8');
-let afinnArr = parse_String(afinnStr);
+let afinnArr = helperFunctions.parse_String(afinnStr);
 //set up Twitter API connection
 var T = new Twit(config); //now pulling data from config.js and gitignored
 
@@ -78,7 +78,7 @@ app.post('/gettweets', function(req, res){
           // console.log('master: ' + masterObject.data.statuses.length);
           // console.log('raw :' + raw_tweets.length);
           if (raw_tweets[i].place!= null) {
-            weatherCounter += getWeatherData(raw_tweets[i]); //TODO: Issues with this function see notes below
+            weatherCounter += helperFunctions.getWeatherData(raw_tweets[i]); //TODO: Issues with this function see notes below
                                                               // Also, I think this is getting called a bunch of times
                                                               //on similar data and giving weatherCounter a
                                                               //much higher value than the actual number of
@@ -109,7 +109,7 @@ app.post('/showResults', function(req, res){
     if(masterObject.statusStrings.length >= temp_query.sample_size){
       //once if statement is satisifed (tweets are grabbed)
       //get afinn111 scores
-      scores = scoreTweets(masterObject.statusStrings);
+      scores = scoreTweets(masterObject.statusStrings, afinnArr);
       //more NLP to improve scores
 
       //calculate score average
@@ -147,7 +147,7 @@ app.post('/showResults', function(req, res){
           // console.log('master: ' + masterObject.data.statuses.length);
           // console.log('raw :' + raw_tweets.length);
           if (raw_tweets[i].place!= null) {
-            weatherCounter += getWeatherData(raw_tweets[i]); //TODO: Issues with this function see notes below
+            weatherCounter += helperFunctions.getWeatherData(raw_tweets[i]); //TODO: Issues with this function see notes below
                                                               // Also, I think this is getting called a bunch of times
                                                               //on similar data and giving weatherCounter a
                                                               //much higher value than the actual number of
@@ -167,70 +167,14 @@ app.post('/showResults', function(req, res){
 }); //end of app.post
 
 
-
-/**helpers**/
-
-/*
-TODO: Right now, place.name is not always returning a city, sometimes its a state...in those cases
-openweathermap is returning a "cant find city error". We're getting closer!
-I've commented out the weather grabbing for now to see what place information is being used in a readible format.
-Also not that due to the async.until function I beleive we're getting duplicate city data since its calling
-getWeatherData multiple times. We need to figure out how to fix this.
-*/
-function getWeatherData(singleStatus) {
-  console.log(String(singleStatus.place.name));
-  // helper.getCurrentWeatherByCityName(String(singleStatus.place.name), (err, currentWeather) => {
-  //     if(err){
-  //         console.log(err);
-  //     }
-  //     else{
-  //
-  //         console.log('test temperature: ' + currentWeather.main.temp);
-  //         console.log('test description: ' + currentWeather.weather[0].main);
-  //
-  //     }
-  // });
-    return 1;
-}
-
-
-function scoreTweets(tweets){
+function scoreTweets(tweets, afinnArr){
   let scores = [];
   for (var t in tweets) {
-    var score = getScore(tweets[t]);
+    var score = helperFunctions.getScore(tweets[t], afinnArr);
     scores.push(score);
     //console.log("Tweet: " + tweets[t] + " Score: " + score);
   }
   return scores;
-}
-
-function getScore(tweet){
-  var tempScore = 0;
-  let tweetSplit = tweet.split(" ");
-  for (var n in tweetSplit){
-    //console.log(tweetSplit[n]);
-    for (var w in afinnArr){
-      if (tweetSplit[n] == afinnArr[w].word){
-        tempScore += parseInt(afinnArr[w].score);
-        //console.log(afinnArr[w].word + " -> score: " + afinnArr[w].score);
-      }
-    }
-  }
-  return tempScore;
-}
-
-//reads in afinn111 string which is tab/newline delimited, saves as JS object/dictionary
-function parse_String(data){
-  let splitData = data.split("\n");
-  var dict = [];
-  for (var n in splitData){
-    var temp = splitData[n].split("\t");
-    dict.push({
-      word: temp[0],
-      score: temp[1]
-    });
-  }
-  return dict;
 }
 
 

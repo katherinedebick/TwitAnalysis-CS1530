@@ -14,6 +14,7 @@ const helper = new OpenWeatherMapHelper({
   APPID: 'd8dfe68ffd082d3b189b28e87fe76264',
   units: "imperial"
 });
+var plotly = require('plotly')('socialpulse', 'jRIANyfu82lUMBjYyidw');
 const helperFunctions = require('./helpers');
 
 var afinnStr = fs.readFileSync('AFINN-111.txt', 'utf8');
@@ -102,6 +103,7 @@ app.post('/showResults', function(req, res){
   masterObject = {}; // object will contain: list of raw twitter tweet objects (.data),
                     //list of tweet statuses as strings(.statusStrings)
   masterObject.statusStrings = [];
+  masterObject.sequenceNums = []; //For plotly feasibility
   var weatherCounter = 0;
   //Begin async Block
   //Until the tweets in tweetStatusList match the requested sample size or greater, don't render the page
@@ -123,8 +125,21 @@ app.post('/showResults', function(req, res){
       var numNeutralTweets = scores.reduce(function(acc, x) {
         return x == 0 ? acc + 1 : acc;
       }, 0);
+
+      //Create Graph and Send it to Plotly
+      var general_plot = {
+        x: masterObject.sequenceNums,
+        y: scores,
+        type: "scatter"
+      };
+      var data = [general_plot];
+      var graphOptions = {filename: "tweetplot", fileopt: "overwrite"};
+      plotly.plot(data, graphOptions, function(err, msg){
+        console.log(msg);
+        res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets});
+      });
       // render results page
-      res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets});
+      //res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets});
       console.log('locations grabbed: ' + weatherCounter);
     }
     return masterObject.statusStrings.length >= temp_query.sample_size;
@@ -136,13 +151,19 @@ app.post('/showResults', function(req, res){
       count: temp_query.sample_size
     }
     T.get('search/tweets', params, function(err, data, response){
-      var raw_tweets = data.statuses;
+      var raw_tweets = []
+      raw_tweets = data.statuses;
       masterObject.data = data;
       //console.log('data: ' + JSON.stringify(data));
       for (var i=0; i<raw_tweets.length; i++){
         //check if tweet is written in English
         if (String(raw_tweets[i].lang) == 'en') {
           masterObject.statusStrings.push(String(raw_tweets[i].text));
+          if (masterObject.sequenceNums.length < 1){
+            masterObject.sequenceNums.push(0);
+          }else{
+            masterObject.sequenceNums.push(masterObject.sequenceNums[masterObject.sequenceNums.length-1]+1);
+          }
           //experimenting
           // console.log('master: ' + masterObject.data.statuses.length);
           // console.log('raw :' + raw_tweets.length);

@@ -55,7 +55,7 @@ app.post('/gettweets', function(req, res){
   async.until(function(){
     if(masterObject.statusStrings.length >= temp_query.sample_size){
       scores = scoreTweets(masterObject.statusStrings);
-      renderPage(masterObject.statusStrings, res, scores);
+      renderPage(masterObject.statusStrings, res, scores, '/views/tweets.ejs');
       console.log('locations grabbed: ' + weatherCounter);
     }
     return masterObject.statusStrings.length >= temp_query.sample_size;
@@ -97,6 +97,77 @@ app.post('/gettweets', function(req, res){
 
 }); //end of app.post
 
+app.post('/showResults', function(req, res){
+  var temp_query = new Query(req.body.search_word, req.body.sample_size, req.body.start_date, req.body.end_date);
+  masterObject = {}; // object will contain: list of raw twitter tweet objects (.data),
+                    //list of tweet statuses as strings(.statusStrings)
+  masterObject.statusStrings = [];
+  var weatherCounter = 0;
+  //Begin async Block
+  //Until the tweets in tweetStatusList match the requested sample size or greater, don't render the page
+  async.until(function(){
+    if(masterObject.statusStrings.length >= temp_query.sample_size){
+      //once if statement is satisifed (tweets are grabbed)
+      //get afinn111 scores
+      scores = scoreTweets(masterObject.statusStrings);
+      //more NLP to improve scores
+
+      //calculate score average
+      var scoreAverage = (scores.reduce((a, b) => a + b, 0)) / scores.length;
+      var numNegTweets = scores.reduce(function(acc, x) {
+        return x < 0 ? acc + 1 : acc;
+      }, 0);
+      var numPosTweets = scores.reduce(function(acc, x) {
+        return x > 0 ? acc + 1 : acc;
+      }, 0);
+      var numNeutralTweets = scores.reduce(function(acc, x) {
+        return x == 0 ? acc + 1 : acc;
+      }, 0);
+      // render results page
+      res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets});
+      console.log('locations grabbed: ' + weatherCounter);
+    }
+    return masterObject.statusStrings.length >= temp_query.sample_size;
+  }, function processQueryHelper(cb){
+    var _masterObject = {};
+    var tweetStatusList = [];
+    var params = {
+      q: temp_query.search_word,
+      count: temp_query.sample_size
+    }
+    T.get('search/tweets', params, function(err, data, response){
+      var raw_tweets = data.statuses;
+      masterObject.data = data;
+      //console.log('data: ' + JSON.stringify(data));
+      for (var i=0; i<raw_tweets.length; i++){
+        //check if tweet is written in English
+        if (String(raw_tweets[i].lang) == 'en') {
+          masterObject.statusStrings.push(String(raw_tweets[i].text));
+          //experimenting
+          // console.log('master: ' + masterObject.data.statuses.length);
+          // console.log('raw :' + raw_tweets.length);
+          if (raw_tweets[i].place!= null) {
+            weatherCounter += getWeatherData(raw_tweets[i]); //TODO: Issues with this function see notes below
+                                                              // Also, I think this is getting called a bunch of times
+                                                              //on similar data and giving weatherCounter a
+                                                              //much higher value than the actual number of
+                                                              //tweets with location data...
+          }
+
+
+        }
+      }
+
+      cb();
+    });
+
+  }); //end of processQueryHelper, end of .until function argument list
+
+
+}); //end of app.post
+
+
+
 /**helpers**/
 
 /*
@@ -104,7 +175,7 @@ TODO: Right now, place.name is not always returning a city, sometimes its a stat
 openweathermap is returning a "cant find city error". We're getting closer!
 I've commented out the weather grabbing for now to see what place information is being used in a readible format.
 Also not that due to the async.until function I beleive we're getting duplicate city data since its calling
-getWeatherData multiple times. We need to figure out how to fix this. 
+getWeatherData multiple times. We need to figure out how to fix this.
 */
 function getWeatherData(singleStatus) {
   console.log(String(singleStatus.place.name));
@@ -121,6 +192,7 @@ function getWeatherData(singleStatus) {
   // });
     return 1;
 }
+
 
 function scoreTweets(tweets){
   let scores = [];
@@ -161,9 +233,10 @@ function parse_String(data){
   return dict;
 }
 
-function renderPage(tweets, res, scores){
+
+function renderPage(tweets, res, scores, pageName){
   //console.log('TWEETS FROM RENDER FN: ' + tweets);
-  res.render(path.join(__dirname+'/views/tweets.ejs'), {tweets: tweets, scores: scores});
+  res.render(path.join(__dirname + pageName), {tweets: tweets, scores: scores});
 }
 
 

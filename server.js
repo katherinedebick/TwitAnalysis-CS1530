@@ -75,17 +75,20 @@ app.post('/gettweets', function(req, res){
         if (String(raw_tweets[i].lang) == 'en') {
           masterObject.statusStrings.push(String(raw_tweets[i].text));
           //experimenting
-          weatherCounter = getWeatherData(masterObject);
           // console.log('master: ' + masterObject.data.statuses.length);
           // console.log('raw :' + raw_tweets.length);
+          if (raw_tweets[i].place!= null) {
+            weatherCounter += getWeatherData(raw_tweets[i]); //TODO: Issues with this function see notes below
+                                                              // Also, I think this is getting called a bunch of times
+                                                              //on similar data and giving weatherCounter a
+                                                              //much higher value than the actual number of
+                                                              //tweets with location data...
+          }
+
 
         }
       }
-      // //TO DO check if no tweets were added / matched search criteria
-      // //putting check here in case criteria is matched but all tweets are non-english
-      // if (i == raw_tweets.length-1 && masterObject.statusStrings.length == 0) {
-      //
-      // }
+
       cb();
     });
 
@@ -96,28 +99,29 @@ app.post('/gettweets', function(req, res){
 
 /**helpers**/
 
-function getWeatherData(masterObject) {
-  var counter = 0;
-  //loop through tweets, check long/lat for weather conditions
-  for (var i = 0; i < masterObject.data.statuses.length; i++) {
-    //check if location is provided
-    if (masterObject.data.statuses[i].place != null) {
-      // helper.getCurrentWeatherByGeoCoordinates(masterObject.data.statuses[i].coordinates[0], masterObject.data.statuses[i].coordinates[0], (err, currentWeather) => {
-      //   if(err){
-      //       console.log(err);
-      //   }
-      //   else{
-      //       console.log(currentWeather);
-      //       counter++;
-      //   }
-      // });
-      counter++;
-    }
-    else {
-      console.log('No exact location provided.')
-    }
-  } //end of for loop
-  return counter;
+/*
+TODO: Right now, place.name is not always returning a city, sometimes its a state...in those cases
+openweathermap is returning a "cant find city error". We're getting closer!
+I've commented out the weather grabbing for now to see what place information is being used in a readible format.
+*/
+function getWeatherData(singleStatus) {
+  console.log(String(singleStatus.place.name));
+  // helper.getCurrentWeatherByCityName(String(singleStatus.place.name), (err, currentWeather) => {
+  //     if(err){
+  //         console.log(err);
+  //     }
+  //     else{
+  //
+  //         console.log('test temperature: ' + currentWeather.main.temp);
+  //         console.log('test description: ' + currentWeather.weather[0].main);
+  //
+  //     }
+  // });
+
+    // else {
+    //   console.log('No exact location provided.')
+    // }
+    return 1;
 }
 
 function scoreTweets(tweets){

@@ -1,34 +1,99 @@
-/* lg screen */
-.col-lg-2 #indexPencilIcon {
-  color:#81bd87;
-  padding: 30% 0 30% 50%;
+/* index.ejs */
+
+#indexRow1, #indexRow2 {
+  height: 50%;
   background-color:#eee;
+  margin-bottom:2%;
 }
 
-.col-lg-10 #indexColPar {
-  padding: 6% 5% 5% 0;
-  font-family:Montserrat;
-  font-weight:500;
-  color:red;
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  /* row 1 */
+  #indexIcon {
+    color:#81bd87;
+    padding: 5% 50% 5% 44%;
+    width:100%;
+    background-color:#eee;
+
+  }
+  #indexColPar {
+    padding: 3% 2% 3% 2%;
+    font-family:Montserrat;
+    font-weight:500;
+    /* color:green; */
+    background-color:#eee;
+  }
+  /* row 2 */
 
 }
 
-/* medium screen */
-.col-md-2 #indexPencilIcon {
-  color:#81bd87;
-  padding: 30% 0 30% 50%;
-  background-color:#eee;
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  /* row 1 */
+  #indexIcon {
+    color:#81bd87;
+    padding: 40% 0 30% 50%;
+    background-color:#eee;
+  }
+
+  #indexColPar {
+    padding: 6% 5% 6% 0;
+    font-family:Montserrat;
+    font-weight:500;
+    /* color:black; */
+    background-color:#eee;
+  }
+  /* row 2 */
+
+
+ }
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  /* row 1 */
+  #indexIcon {
+    color:#81bd87;
+    padding: 30% 0 30% 50%;
+    background-color:#eee;
+  }
+  #indexColPar {
+    padding: 6% 5% 6% 0;
+    font-family:Montserrat;
+    font-weight:500;
+    /* color:red; */
+    background-color:#eee;
+  }
+  /* row 2 */
+  #indexIcon2 {
+    color:#81bd87;
+    padding: 25% 50% 30% 0;
+    background-color:#eee;
+  }
+  #indexColPar2 {
+    padding: 6% 0 6% 5%;
+    font-family:Montserrat;
+    font-weight:500;
+    /* color:red; */
+    background-color:#eee;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
 }
 
 
-.col-md-10 #indexColPar {
-  padding: 6% 5% 5% 0;
-  font-family:Montserrat;
-  font-weight:500;
-  color:black;
-}
 
 
-#indexRow1 {
-  background-color:#eee;
+
+
+
+
+
+
+/* query.ejs */
+
+.form-group {
+  width:100%;
 }

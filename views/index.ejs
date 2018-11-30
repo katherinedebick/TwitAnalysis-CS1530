@@ -1,57 +1,62 @@
 <% include partials/header %>
-
 <!-- start of jumbotron -->
 <div class="jumbotron jumbotron-fluid" style="padding-top:0px; padding-bottom: 0; background-color:#726bb0">
-  <img src="/images/logoicon.png" alt="logoicon" style="display:block; margin-left:auto; margin-right:auto; margin-top:-20px; position:relative">
+  <img src="/images/logoicon.png" alt="logoicon" style="display:block; margin-left:auto; margin-right:auto; margin-top:-55px; position:relative">
   <img src="/images/nodeL.png" alt="leftNode" style="float:left; margin-top:-93px; margin-left:15%">
   <img src="/images/nodeR.png" alt="rightNode" style="float:right; margin-top:-100px; margin-right:15%">
-  <h4 id="jumbotronTagLine" style="text-align:center; margin-top:5%; color:#eee9e9; font-family:changa">measure your brand's emotional temperature on social.</h4>
-  <h6 id="jumbotronTagLine2" style="text-align:center; margin-top:5%; color:#9a93d7; font-family:changa; margin-top:3%">we're your qualitative lifeline in an overwhelmingly quantitative world.</h6>
+  <h2 id="jumbotronTagLine" style="text-align:center; margin-top:5%; color:#eee9e9; font-family:changa">measure your brand's emotional temperature</h2>
+  <h5 id="jumbotronTagLine2" style="text-align:center; margin-top:5%; color:#d2d0e2; font-family:changa; margin-top:3%">your qualitative lifeline in an overwhelmingly quantitative world</h5>
  </div>
- <div id="keyboardIcon" style="text-align: center; margin-bottom:1%; padding:0">
-   <i class="fas fa-keyboard fa-3x" style="color:#9a93d7"></i>
+ <div id="twitterIcon" style="text-align: center; margin-bottom: 3%; padding:0">
+   <i class="fab fa-twitter fa-3x" style="color:#9a93d7"></i>
  </div>
 </div>
 
-<div class="bottomHalf" style="background-color:#ffffff; width: 100%; height:500px; padding-top:3%">
-<!-- start of query fields -->
-<form method="POST" action="/showResults">
-  <div class="form-group" >
-    <div class="input-group mb-2 ml-2">
-      <div class="input-group-prepend">
-        <div class="input-group-text"><span class="fas fa-search"></div>
-      </div>
-      <input type="text" class="form-control" id="inlineFormInputGroup" name="search_word" placeholder="Search Word" size="35">
-    </div>
-    <div class="input-group mb-2 ml-2">
-      <div class="input-group-prepend">
-        <div class="input-group-text"><span class="fas fa-list-ol"></div>
-      </div>
-      <input type="number" class="form-control" id="inlineFormInput"  name="sample_size"  placeholder="Sample Size">
-    </div>
-    <div class="input-group mb-2 ml-2">
-      <div class="input-group-prepend">
-        <div class="input-group-text"><span class="fas fa-calendar-alt"></div>
-      </div>
-      <input type="date" class="form-control" id="inlineFormInput"  name="start_date" placeholder="Start Date">
-    </div>
-    <div class="input-group mb-2 ml-2">
-      <div class="input-group-prepend">
-        <div class="input-group-text"><span class="far fa-calendar-alt"></div>
-      </div>
-      <input type="date" class="form-control" id="inlineFormInput"  name="end_date" placeholder="End Date">
-    </div>
-    <div class="buttonDiv" style="width: 100%; display: block; margin-top: 2%; margin-left: auto; margin-right: auto">
-      <!-- <button type="submit" class="btn" value="Show Tweets" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Show Tweets</button> -->
-      <button method="POST" action="/showResults" type="submit" class="btn" value="Calculate Sentiment" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Calculate Sentiment</button>
-    </div>
+<div class="row" id="indexRow1">
+  <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 p-3">
+  <i class="fas fa-pencil-ruler fa-4x" id="indexPencilIcon"></i>
   </div>
-  <!-- end of first form div -->
-</form>
-<!-- end of querySection div  -->
+  <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 p-3">
+    <p id="indexColPar">
+    Social Pulse is a new tool for brands that provides deep insight and unique qualitative analysis to help you
+    craft effective strategies and ensure the ultimate R.O.I. for your social marketing spend.
+    </p>
+  </div>
+
+
+
+
 </div>
-<!-- end of bottomHalf div -->
+
+<div class="row" id="indexRow2" style="padding-top: 3%">
+  <div class="col-sm" style="background-color:#eee">
+    <i class="fas fa-pencil-ruler fa-4x" style="float:right; padding: 5% 7% 5% 0; color:#a581bd"></i>
+    <p style="float:left; padding: 6% 1% 5% 5%; font-family:Montserrat; font-weight:400">
+    Social media has become the defacto medium by which peer-peer communication occurs and<br>
+    subsequently the platform by which consumer-brand relationships are created, maintained,<br> and studied.
+    </p>
+  </div>
+</div>
+
+<div class="row" id="indexRow2" style="padding-top: 3%">
+  <div class="col-sm" style="background-color:#eee">
+    <h4 style="float:left; padding-top: 3%; font-family:Montserrat; font-weight:700">Feature 1</h4>
+    <img src="/images/ipads.png" style="float:right; padding-bottom:3%; padding-top:3%">
+
+  </div>
+  <div class="col-sm" style="background-color:#fff">
+    <h4>Feature 2</h4>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
 </div>
 <!-- end of container div -->
-
 <% include partials/footer %>

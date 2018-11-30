@@ -40,10 +40,18 @@ app.use(upload.array());
 // Set static path
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+//route for homepage
 app.get('/', function(req, res) {
     res.render('index.ejs');
 });
+
+//route for query page
+app.get('/query', function(req, res) {
+    res.render('query.ejs');
+});
+
+
+
 
 app.post('/gettweets', function(req, res){
   var temp_query = new Query(req.body.search_word, req.body.sample_size, req.body.start_date, req.body.end_date);

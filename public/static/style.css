@@ -1,14 +1,34 @@
+/* lg screen */
 .col-lg-2 #indexPencilIcon {
   color:#81bd87;
   padding: 30% 0 30% 50%;
+  background-color:#eee;
 }
 
 .col-lg-10 #indexColPar {
   padding: 6% 5% 5% 0;
   font-family:Montserrat;
-  font-weight:400;
+  font-weight:500;
+  color:red;
+
 }
 
+/* medium screen */
+.col-md-2 #indexPencilIcon {
+  color:#81bd87;
+  padding: 30% 0 30% 50%;
+  background-color:#eee;
+}
+
+
+.col-md-10 #indexColPar {
+  padding: 6% 5% 5% 0;
+  font-family:Montserrat;
+  font-weight:500;
+  color:black;
+}
+
+
 #indexRow1 {
-  background-color:#eee
+  background-color:#eee;
 }

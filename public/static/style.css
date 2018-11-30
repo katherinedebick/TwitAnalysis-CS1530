@@ -59,12 +59,12 @@
   /* row 2 */
   #indexIcon2 {
     color:#81bd87;
-    padding: 20% 0 20% 40%;
+    padding: 25% 0 20% 40%;
     background-color:#eee;
   }
 
   #indexColPar2 {
-    padding: 4% 5% 4% 5%;
+    padding: 4% 5% 4% 0%;
     font-family:Montserrat;
     font-weight:500;
     color:black;
@@ -91,7 +91,7 @@
   /* row 2 */
   #indexIcon2 {
     color:#81bd87;
-    padding: 20% 5% 25% 40%;
+    padding: 25% 5% 25% 40%;
     background-color:#eee;
   }
   #indexColPar2 {

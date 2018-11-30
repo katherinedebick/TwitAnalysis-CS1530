@@ -1,7 +1,7 @@
 /* index.ejs */
 
 #indexRow1, #indexRow2, #indexRow3 {
-  height: 50%;
+  height: 75%;
   background-color:#eee;
   margin-bottom:2%;
 }
@@ -143,6 +143,7 @@
     /* color:red; */
     background-color:#eee;
   }
+
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
@@ -155,6 +156,10 @@
   height:400px;
 }
 
+.rowContainer {
+  background-color: #2c2a3b;
+
+}
 
 
 

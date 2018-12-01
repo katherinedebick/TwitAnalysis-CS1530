@@ -3,39 +3,58 @@
 
 
 <div class="bottomHalf" style="background-color:#eee; width: 100%; height: 100%; padding-top:3%; padding-right:2%;margin-bottom:0">
+
 <!-- start of query fields -->
 <form method="POST" action="/showResults">
-  <div class="form-group">
-    <div class="input-group mb-2 ml-2">
+  <div class="form-group" id="basicQueryGroup">
+    <div class="input-group justify-content-center mb-2 ml-2">
       <div class="input-group-prepend">
         <div class="input-group-text"><span class="fas fa-search"></div>
       </div>
-      <input type="text" class="form-control" id="inlineFormInputGroup" name="search_word" placeholder="Twitter Keyword" size="35">
+      <input type="text" class="form-control col-sm-4" id="inlineFormInputGroup" name="search_word" placeholder="Twitter Keyword" size="35">
     </div>
-    <div class="input-group mb-2 ml-2">
+    <small id="keywordHelperText" class="form-text text-center text-muted ml-3 mb-3">
+      Choose a brand/product/person name.
+    </small>
+
+    <div class="input-group justify-content-center mb-2 ml-2">
       <div class="input-group-prepend">
         <div class="input-group-text"><span class="fas fa-list-ol"></div>
       </div>
-      <input type="number" class="form-control" id="inlineFormInput"  name="sample_size"  placeholder="Sample Size">
+      <input type="number" class="form-control col-sm-4" id="inlineFormInput"  name="sample_size"  placeholder="Sample Size">
     </div>
-    <div class="input-group mb-2 ml-2">
+    <small id="keywordHelperText" class="form-text text-center text-muted ml-3 mb-3">
+      How many Tweets do you want to sample?
+    </small>
+    <div class="input-group justify-content-center mb-2 ml-2">
       <div class="input-group-prepend">
         <div class="input-group-text"><span class="fas fa-calendar-alt"></div>
       </div>
-      <input type="date" class="form-control" id="inlineFormInput"  name="start_date" placeholder="Start Date">
+      <input type="date" class="form-control col-sm-4" id="inlineFormInput"  name="start_date" placeholder="Start Date">
     </div>
-    <div class="input-group mb-2 ml-2">
+    <small id="keywordHelperText" class="form-text text-center text-muted ml-3 mb-3">
+      Choose a start date for the search query.
+    </small>
+
+    <div class="input-group justify-content-center mb-2 ml-2">
       <div class="input-group-prepend">
         <div class="input-group-text"><span class="far fa-calendar-alt"></div>
       </div>
-      <input type="date" class="form-control" id="inlineFormInput"  name="end_date" placeholder="End Date">
+      <input type="date" class="form-control col-sm-4" id="inlineFormInput"  name="end_date" placeholder="End Date">
     </div>
+    <small id="keywordHelperText" class="form-text text-center text-muted ml-3 mb-3">
+      Choose an end date for the search query.
+    </small>
+
     <div class="buttonDiv" style="width: 100%; display: block; margin-top: 2%; margin-left: auto; margin-right: auto">
       <!-- <button type="submit" class="btn" value="Show Tweets" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Show Tweets</button> -->
       <button method="POST" action="/showResults" type="submit" class="btn" value="Calculate Sentiment" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Calculate Sentiment</button>
     </div>
   </div>
-  <!-- end of first form div -->
+  <!-- end of basic form group form div -->
+  <div class="form-group" id="advancedFormGroup">
+
+  </div>
 </form>
 <!-- end of querySection div  -->
 </div>

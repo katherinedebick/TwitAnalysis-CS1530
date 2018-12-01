@@ -53,6 +53,7 @@
     /* color:green; */
     background-color:#eee;
   }
+
 }
 
 /* Medium devices (tablets, 768px and up) */
@@ -158,6 +159,8 @@
 
 .rowContainer {
   background-color: #2c2a3b;
+  padding-bottom:0;
+  margin-bottom:0;
 }
 
 #indexVideoDiv {
@@ -170,4 +173,24 @@
 
 .form-group {
   width:100%;
+}
+
+/* footer */
+.footerInfo {
+  padding-top:5%;
+  padding-left:3%;
+  padding-bottom:6%;
+  margin-top:0;
+  background-color:#7069ae;
+  color:#eee;
+  font-family: Montserrat;
+}
+#footerLogo {
+  font-family: changa;
+  font-weight:700;
+  font-size:160%;
+  padding-bottom:5%;
+}
+#footerRow1 p {
+  font-size:80%;
 }

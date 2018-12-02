@@ -8,6 +8,32 @@
   margin-bottom:2%;
 }
 
+
+#emotionIcons {
+  color: #7874b1;
+}
+.fa-laugh-squint:hover {
+  color: #9f9dcb;
+}
+.fa-smile:hover {
+  color: #9f9dcb;
+}
+.fa-surprise:hover {
+  color: #9f9dcb;
+}
+.fa-meh:hover {
+  color: #9f9dcb;
+}
+.fa-meh-rolling-eyes:hover {
+  color: #9f9dcb;
+}
+.fa-sad-cry:hover {
+  color: #9f9dcb;
+}
+.fa-angry:hover {
+  color: #9f9dcb;
+}
+
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
   /* row 1 */

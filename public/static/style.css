@@ -1,3 +1,5 @@
+
+
 /* index.ejs */
 
 #indexRow1, #indexRow2, #indexRow3 {
@@ -196,13 +198,15 @@
 #footerLogo {
   font-family: changa;
   font-weight:700;
-  font-size:170%;
+  font-size:150%;
   padding-bottom:5%;
 }
 #footerRow1 p {
   font-size:80%;
   font-weight:300;
 }
+
+
 .footerInfo ul, li {
   list-style-type: none;
   padding: 0;
@@ -211,8 +215,9 @@
   font-size: 90%;
 }
 
-#footerLogo, #footerActionsHeading, #footerContactHeading {
+
+ #footerActionsHeading, #footerContactHeading {
   font-weight: 600;
-  font-size: 110%;
+  font-size: 105%;
   padding-bottom:3%;
 }

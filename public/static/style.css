@@ -177,6 +177,10 @@
   margin-right: auto;
 }
 
+#advancedFormGroup {
+  /* display: none; */
+}
+
 
 /* footer */
 .footerInfo {
@@ -187,13 +191,28 @@
   background-color:#7069ae;
   color:#eee;
   font-family: Montserrat;
+
 }
 #footerLogo {
   font-family: changa;
   font-weight:700;
-  font-size:160%;
+  font-size:170%;
   padding-bottom:5%;
 }
 #footerRow1 p {
   font-size:80%;
+  font-weight:300;
+}
+.footerInfo ul, li {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  font-weight:300;
+  font-size: 90%;
+}
+
+#footerLogo, #footerActionsHeading, #footerContactHeading {
+  font-weight: 600;
+  font-size: 110%;
+  padding-bottom:3%;
 }

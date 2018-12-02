@@ -7,6 +7,7 @@
 <!-- start of query fields -->
 <form method="POST" action="/showResults">
   <div class="form-group" id="basicQueryGroup">
+
     <div class="input-group justify-content-center mb-2 ml-2">
       <div class="input-group-prepend">
         <div class="input-group-text"><span class="fas fa-search"></div>
@@ -16,6 +17,7 @@
     <small id="keywordHelperText" class="form-text text-center text-muted ml-3 mb-3">
       Choose a brand/product/person name.
     </small>
+
 
     <div class="input-group justify-content-center mb-2 ml-2">
       <div class="input-group-prepend">
@@ -45,16 +47,41 @@
     <small id="keywordHelperText" class="form-text text-center text-muted ml-3 mb-3">
       Choose an end date for the search query.
     </small>
+    <!-- end of basic form group form div -->
+
+    <!-- toggle advanced options -->
+
+      <p style="text-align:center">Show Advanced Features</p>
+      <p>
+        <div class="btn-group justify-content-center" style="width: 100%">
+          <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseFeatures" aria-expanded="false" aria-controls="collapseExample">
+            On
+          </button>
+          <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseFeatures" aria-expanded="false" aria-controls="collapseExample">
+            Off
+          </button>
+        </div>
+      </p>
+      <div class="collapse" id="collapseFeatures">
+        <div class="input-group justify-content-center mb-2 ml-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><span class="far fa-calendar-alt"></div>
+          </div>
+          <input type="date" class="form-control col-sm-4" id="inlineFormInput"  name="end_date" placeholder="End Date">
+        </div>
+        <small id="keywordHelperText" class="form-text text-center text-muted ml-3 mb-3">
+          Choose an end date for the search query.
+        </small>
+      </div>
+
 
     <div class="buttonDiv" style="width: 100%; display: block; margin-top: 2%; margin-left: auto; margin-right: auto">
       <!-- <button type="submit" class="btn" value="Show Tweets" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Show Tweets</button> -->
       <button method="POST" action="/showResults" type="submit" class="btn" value="Calculate Sentiment" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Calculate Sentiment</button>
     </div>
   </div>
-  <!-- end of basic form group form div -->
-  <div class="form-group" id="advancedFormGroup">
 
-  </div>
+
 </form>
 <!-- end of querySection div  -->
 </div>

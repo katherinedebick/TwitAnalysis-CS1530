@@ -10,17 +10,14 @@ var Twit = require('twit');
 var config = require('./config'); //use this instead of putting keys in the server file
 let fs = require('fs');
 const OpenWeatherMapHelper = require('openweathermap-node');
-const helper = new OpenWeatherMapHelper({
-  APPID: 'd8dfe68ffd082d3b189b28e87fe76264',
-  units: "imperial"
-});
+const helper = new OpenWeatherMapHelper(config.weather);
 var plotly = require('plotly')('socialpulse', 'jRIANyfu82lUMBjYyidw');
 const helperFunctions = require('./helpers');
 
 var afinnStr = fs.readFileSync('AFINN-111.txt', 'utf8');
 let afinnArr = helperFunctions.parse_String(afinnStr);
 //set up Twitter API connection
-var T = new Twit(config); //now pulling data from config.js and gitignored
+var T = new Twit(config.twitter); //now pulling data from config.js and gitignored
 
 const Query = require('./query.js');
 

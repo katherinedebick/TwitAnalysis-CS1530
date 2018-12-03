@@ -209,6 +209,11 @@
   /* display: none; */
 }
 
+#loadingButton {
+    color: #eee;
+    padding-left: 4%;
+}
+
 
 /* footer */
 .footerInfo {

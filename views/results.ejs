@@ -1,10 +1,17 @@
 <% include partials/header %>
-  <div class="container-fluid pb-3" style="background-color:#37354a; padding-top: 2%">
+  <div class="container-fluid pb-3" style="background-color:#37354a">
 
-    <div class="row mb-2" id="row1">
+    <div class="row mb-2" id="mainResultRow">
+      <div class="col-lg-12" style="padding-bottom: 2%; padding-top:2%; background-color: #eee; color:#37354a; font-family:changa"">
+        <button class="btn-dark btn-lg">Results:</button>
+        <button class="btn-light btn-lg" style="font-family: Montserrat" >The emotional temperature of '<%= searchPhrase %>' is:  <span style="color:#7069ae; font-family: Changa; font-size:125%; font-weight: 400"><%= oneWordSentiment %></span></button>
+      </div>
+    </div>
+
+    <div class="row mb-2" id="row1" style="margin-top:0">
       <div class="col-sm" style="background-image: linear-gradient(#7069ae, #595297)">
-        <h4 style="margin-top:1%; color:#fff;font-family:changa">Quick Look:</h4>
-        <p style="color:#eee">Here is a quick overview of the results.</p>
+        <h4 style="padding-top: 1%; color:#fff;font-family:changa">Quick Look:</h4>
+        <p style="color:#eee">Here is a quick overview of the data.</p>
         <ul class="list-group shadow-sm" style="margin-bottom: 2%">
           <li class="list-group-item">Sampled Tweets: <%= scores.length %></li>
           <li class="list-group-item">Average Sentiment: <%= avg %></li>
@@ -22,20 +29,20 @@
     <!-- end of row div -->
     <div class="row" id="row2" style="margin-top:2%; margin-bottom-2%">
       <div class="col-sm" style="background-color:#8781bd">
-        <h4 style="margin-top:1%; color:#fff;font-family:changa">Next Data Section:</h4>
+        <h4 style="margin-top:2%; color:#fff;font-family:changa">Next Data Section:</h4>
         <p>These columns can be differently proportion or increased or decreased.</p>
       </div>
-      <div class="col-lg" style="background-color:#eee">
+      <div class="col-lg" style="padding-top: 2%; background-color:#eee">
         Put a general graph here..
       </div>
     </div>
     <!-- end of row div -->
     <div class="row" id="row3" style="margin-top:2%; margin-bottom-2%">
       <div class="col-sm" style="background-color:#8781bd">
-        <h4 style="margin-top:1%; color:#fff;font-family:changa">Next Data Section</h4>
+        <h4 style="margin-top:2%; color:#fff;font-family:changa">Next Data Section</h4>
         <p>More tweet data.</p>
       </div>
-      <div class="col-lg" style="background-color:#eee">
+      <div class="col-lg" style="padding-top: 2%; background-color:#eee">
         Put a general graph here..
       </div>
     </div>

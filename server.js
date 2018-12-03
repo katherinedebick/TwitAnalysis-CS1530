@@ -137,6 +137,8 @@ app.post('/showResults', function(req, res){
         return x == 0 ? acc + 1 : acc;
       }, 0);
 
+      var oneWordSentiment = getOneWordSentiment(scoreAverage);
+
       //Create Graph and Send it to Plotly
       var general_plot = {
         x: masterObject.sequenceNums,
@@ -147,7 +149,7 @@ app.post('/showResults', function(req, res){
       var graphOptions = {filename: "tweetplot", fileopt: "overwrite"};
       plotly.plot(data, graphOptions, function(err, msg){
         console.log(msg);
-        res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets});
+        res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets, oneWordSentiment: oneWordSentiment, searchPhrase: temp_query.search_word});
       });
       // render results page
       //res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets});
@@ -199,6 +201,29 @@ app.post('/showResults', function(req, res){
 
 }); //end of app.post
 
+function getOneWordSentiment(score) {
+  if (score <= -3) {
+    return "SUPER NEGATIVE";
+  }
+  else if (score <= -1) {
+    return "REALLY NEGATIVE";
+  }
+  else if (score < 0) {
+    return "NEGATIVE";
+  }
+  else if (score <= 1) {
+    return "POSTIVE";
+  }
+  else if (score <= 3) {
+    return "HAPPY";
+  }
+  else if (score <=5) {
+    return "SUPER HAPPY a.k.a. #winning";
+  }
+  else {
+    return "CALCULATION ERROR";
+  }
+}
 
 function scoreTweets(tweets, afinnArr){
   let scores = [];

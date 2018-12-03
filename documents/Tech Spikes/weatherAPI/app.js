@@ -1,8 +1,8 @@
 const OpenWeatherMapHelper = require("openweathermap-node");
 const helper = new OpenWeatherMapHelper(
     {
-        APPID: 'YOUR_OPENWEATHERMAP_API_KEY_GOES_HERE', //get key from AlexIntialProjectNotes.docx
-        units: "metric"
+        APPID: 'd8dfe68ffd082d3b189b28e87fe76264', //get key from AlexIntialProjectNotes.docx
+        units: "imperial"
     }
 );
 
@@ -14,5 +14,7 @@ helper.getCurrentWeatherByCityName("Pittsburgh", (err, currentWeather) => {
     }
     else{
         console.log(currentWeather);
+        console.log('test temperature: ' + currentWeather.main.temp);
+        console.log('test description: ' + currentWeather.weather[0].main);
     }
 });

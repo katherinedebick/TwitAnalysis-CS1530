@@ -1,0 +1,108 @@
+<% include partials/header %>
+
+
+
+<div class="bottomHalf" style="background-image: linear-gradient(#eee, #fff); width: 100%; height: 100%; padding-top:3%; padding-right:2%;margin-bottom:0">
+
+<!-- start of query fields -->
+<form method="POST" action="/showResults">
+  <div class="form-group" id="basicQueryGroup">
+
+    <div class="input-group justify-content-center mb-2 ml-2">
+      <div class="input-group-prepend">
+        <div class="input-group-text"><span class="fas fa-search"></div>
+      </div>
+      <input type="text" class="form-control col-sm-4" id="inlineFormInputGroup" name="search_word" placeholder="Twitter Keyword" size="35">
+    </div>
+    <small id="keywordHelperText" class="form-text text-center text-muted ml-3 mb-3">
+      Choose a brand/product/person name.
+    </small>
+
+
+    <div class="input-group justify-content-center mb-2 ml-2">
+      <div class="input-group-prepend">
+        <div class="input-group-text"><span class="fas fa-list-ol"></div>
+      </div>
+      <input type="number" class="form-control col-sm-4" id="inlineFormInput"  name="sample_size"  placeholder="Sample Size">
+    </div>
+    <small id="keywordHelperText" class="form-text text-center text-muted ml-3 mb-3">
+      How many Tweets do you want to sample?
+    </small>
+    <div class="input-group justify-content-center mb-2 ml-2">
+      <div class="input-group-prepend">
+        <div class="input-group-text"><span class="fas fa-calendar-alt"></div>
+      </div>
+      <input type="date" class="form-control col-sm-4" id="inlineFormInput"  name="start_date" placeholder="Start Date">
+    </div>
+    <small id="keywordHelperText" class="form-text text-center text-muted ml-3 mb-3">
+      Choose a start date for the search query.
+    </small>
+
+    <div class="input-group justify-content-center mb-2 ml-2">
+      <div class="input-group-prepend">
+        <div class="input-group-text"><span class="far fa-calendar-alt"></div>
+      </div>
+      <input type="date" class="form-control col-sm-4" id="inlineFormInput"  name="end_date" placeholder="End Date">
+    </div>
+    <small id="keywordHelperText" class="form-text text-center text-muted ml-3 mb-3">
+      Choose an end date for the search query.
+    </small>
+    <!-- end of basic form group form div -->
+
+    <!-- toggle advanced options -->
+
+      <p style="text-align:center">Show Advanced Features</p>
+      <p>
+        <div class="btn-group justify-content-center" style="width: 100%">
+          <button class="btn btn-sm btn-success" type="button" data-toggle="collapse" data-target="#collapseFeatures" aria-expanded="false" aria-controls="collapseExample">
+            On
+          </button>
+          <button class="btn btn-sm btn-danger" type="button" data-toggle="collapse" data-target="#collapseFeatures" aria-expanded="false" aria-controls="collapseExample">
+            Off
+          </button>
+        </div>
+      </p>
+      <div class="collapse" id="collapseFeatures">
+        <div class="input-group justify-content-center mb-2 ml-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><span class="far fa-user"></div>
+          </div>
+          <input type="text" class="form-control col-sm-4" id="inlineFormInput"  name="end_date" placeholder="Enter Username">
+        </div>
+        <small id="keywordHelperText" class="form-text text-center text-muted ml-3 mb-3">
+          Only sample users who follow this account.
+        </small>
+        <div class="input-group justify-content-center mb-2 ml-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><span class="fas fa-user"></div>
+          </div>
+          <input type="text" class="form-control col-sm-4" id="inlineFormInput"  name="end_date" placeholder="Enter Username">
+        </div>
+        <small id="keywordHelperText" class="form-text text-center text-muted ml-3 mb-3">
+          Only sample users who do NOT follow this account.
+        </small>
+      </div>
+
+
+    <div class="buttonDiv" style="width: 100%; display: block; margin-top: 2%; margin-left: auto; margin-right: auto">
+      <!-- <button type="submit" class="btn" value="Show Tweets" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Show Tweets</button> -->
+      <button  data-toggle="collapse" data-target="#collapseSpinnerSpan "method="POST" action="/showResults" type="submit" class="btn" value="Calculate Sentiment" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Calculate Sentiment <span class="collapse" id="collapseSpinnerSpan"><i class="fa fa-spinner fa-spin" id="loadingButton"></i></span></button>
+    </div>
+
+
+
+
+
+
+
+  </div>
+
+
+</form>
+<!-- end of querySection div  -->
+</div>
+<!-- end of bottomHalf div -->
+</div>
+<!-- end of container div -->
+
+<% include partials/footer %>

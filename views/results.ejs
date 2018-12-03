@@ -1,0 +1,54 @@
+<% include partials/header %>
+  <div class="container-fluid pb-3" style="background-color:#37354a; padding-top: 2%">
+
+    <div class="row mb-2" id="row1">
+      <div class="col-sm" style="background-image: linear-gradient(#7069ae, #595297)">
+        <h4 style="margin-top:1%; color:#fff;font-family:changa">Quick Look:</h4>
+        <p style="color:#eee">Here is a quick overview of the results.</p>
+        <ul class="list-group shadow-sm" style="margin-bottom: 2%">
+          <li class="list-group-item">Sampled Tweets: <%= scores.length %></li>
+          <li class="list-group-item">Average Sentiment: <%= avg %></li>
+          <li class="list-group-item">Number of Positive Tweets: <%= numPosTweets %></li>
+          <li class="list-group-item">Number of Negative Tweets: <%= numNegTweets %> </li>
+          <li class="list-group-item">Number of Neutral Tweets: <%= numNeutralTweets %> </li>
+
+        </ul>
+      </div>
+      <div class="col-lg" style="background-color:#eee">
+        <h4 style="margin-top:1%; color:#7069ae;font-family:changa">Social Pulse:</h4>
+        <iframe width="700" height="400" frameborder="0" scrolling="no" src="//plot.ly/~socialpulse/0.embed"></iframe>
+      </div>
+    </div>
+    <!-- end of row div -->
+    <div class="row" id="row2" style="margin-top:2%; margin-bottom-2%">
+      <div class="col-sm" style="background-color:#8781bd">
+        <h4 style="margin-top:1%; color:#fff;font-family:changa">Next Data Section:</h4>
+        <p>These columns can be differently proportion or increased or decreased.</p>
+      </div>
+      <div class="col-lg" style="background-color:#eee">
+        Put a general graph here..
+      </div>
+    </div>
+    <!-- end of row div -->
+    <div class="row" id="row3" style="margin-top:2%; margin-bottom-2%">
+      <div class="col-sm" style="background-color:#8781bd">
+        <h4 style="margin-top:1%; color:#fff;font-family:changa">Next Data Section</h4>
+        <p>More tweet data.</p>
+      </div>
+      <div class="col-lg" style="background-color:#eee">
+        Put a general graph here..
+      </div>
+    </div>
+    <!-- end of row div -->
+    <div class="row" id="row3" style="margin-top:2%; margin-bottom-2%">
+      <div class="col-sm-12" style="background-color:#eee">
+        <h4 style="margin-top:1%; color:#7069ae;font-family:changa">Export Options</h4>
+        <p>Export options go here</p>
+      </div>
+    </div>
+    <!-- end of row div -->
+  </div>
+  <!-- end of container div -->
+
+
+<% include partials/footer %>

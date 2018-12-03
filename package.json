@@ -32,5 +32,9 @@
   },
   "engines": {
     "node": "8.11.4"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {}
 }

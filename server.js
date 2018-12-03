@@ -56,6 +56,8 @@ app.post('/gettweets', function(req, res){
                     //list of tweet statuses as strings(.statusStrings)
   masterObject.statusStrings = [];
   var weatherCounter = 0;
+
+
   //Begin async Block
   //Until the tweets in tweetStatusList match the requested sample size or greater, don't render the page
   async.until(function(){

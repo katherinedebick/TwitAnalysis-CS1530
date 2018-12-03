@@ -54,10 +54,10 @@
       <p style="text-align:center">Show Advanced Features</p>
       <p>
         <div class="btn-group justify-content-center" style="width: 100%">
-          <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseFeatures" aria-expanded="false" aria-controls="collapseExample">
+          <button class="btn btn-sm btn-success" type="button" data-toggle="collapse" data-target="#collapseFeatures" aria-expanded="false" aria-controls="collapseExample">
             On
           </button>
-          <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseFeatures" aria-expanded="false" aria-controls="collapseExample">
+          <button class="btn btn-sm btn-danger" type="button" data-toggle="collapse" data-target="#collapseFeatures" aria-expanded="false" aria-controls="collapseExample">
             Off
           </button>
         </div>
@@ -86,8 +86,15 @@
 
     <div class="buttonDiv" style="width: 100%; display: block; margin-top: 2%; margin-left: auto; margin-right: auto">
       <!-- <button type="submit" class="btn" value="Show Tweets" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Show Tweets</button> -->
-      <button method="POST" action="/showResults" type="submit" class="btn" value="Calculate Sentiment" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Calculate Sentiment</button>
+      <button  data-toggle="collapse" data-target="#collapseSpinnerSpan "method="POST" action="/showResults" type="submit" class="btn" value="Calculate Sentiment" style="background-color:#9a93d7; color:#ffffff; display:block; margin-left:auto; margin-right:auto">Calculate Sentiment <span class="collapse" id="collapseSpinnerSpan"><i class="fa fa-spinner fa-spin" id="loadingButton"></i></span></button>
     </div>
+
+
+
+
+
+
+
   </div>
 
 

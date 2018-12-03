@@ -16,6 +16,9 @@ const helperFunctions = require('./helpers');
 
 var afinnStr = fs.readFileSync('AFINN-111.txt', 'utf8');
 let afinnArr = helperFunctions.parse_String(afinnStr);
+var Sentiment = require('sentiment');
+var sentiment = new Sentiment();
+
 //set up Twitter API connection
 var T = new Twit(config.twitter); //now pulling data from config.js and gitignored
 
@@ -198,8 +201,10 @@ app.post('/showResults', function(req, res){
 function scoreTweets(tweets, afinnArr){
   let scores = [];
   for (var t in tweets) {
-    var score = helperFunctions.getScore(tweets[t], afinnArr);
-    scores.push(score);
+    var result = sentiment.analyze(tweets[t]);
+    //console.log(result.score);
+    //var score = helperFunctions.getScore(tweets[t], afinnArr);
+    scores.push(result.score);
     //console.log("Tweet: " + tweets[t] + " Score: " + score);
   }
   return scores;

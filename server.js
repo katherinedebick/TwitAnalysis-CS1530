@@ -84,16 +84,18 @@ app.post('/gettweets', function(req, res){
       for (var i=0; i<raw_tweets.length; i++){
         //check if tweet is written in English
         if (String(raw_tweets[i].lang) == 'en') {
-          masterObject.statusStrings.push(String(raw_tweets[i].text));
+          //masterObject.statusStrings.push(String(raw_tweets[i].text));
           //experimenting
           // console.log('master: ' + masterObject.data.statuses.length);
           // console.log('raw :' + raw_tweets.length);
           if (raw_tweets[i].place!= null) {
+            console.log("There is a location");
             weatherCounter += helperFunctions.getWeatherData(raw_tweets[i]); //TODO: Issues with this function see notes below
                                                               // Also, I think this is getting called a bunch of times
                                                               //on similar data and giving weatherCounter a
                                                               //much higher value than the actual number of
                                                               //tweets with location data...
+            masterObject.statusStrings.push(String(raw_tweets[i].text));
           }
 
 
@@ -183,6 +185,7 @@ app.post('/showResults', function(req, res){
                                                               //on similar data and giving weatherCounter a
                                                               //much higher value than the actual number of
                                                               //tweets with location data...
+
           }
 
 

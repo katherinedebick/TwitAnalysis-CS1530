@@ -149,7 +149,7 @@ app.post('/showResults', function(req, res){
       var graphOptions = {filename: "tweetplot", fileopt: "overwrite"};
       plotly.plot(data, graphOptions, function(err, msg){
         console.log(msg);
-        res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets, oneWordSentiment: oneWordSentiment});
+        res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets, oneWordSentiment: oneWordSentiment, searchPhrase: temp_query.search_word});
       });
       // render results page
       //res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets});

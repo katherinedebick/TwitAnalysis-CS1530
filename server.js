@@ -244,6 +244,6 @@ function renderPage(tweets, res, scores, pageName){
 }
 
 
-app.listen(5000, function(){
+app.listen((process.env.PORT || 5000), function(){
   console.log('server started on Port 5000...'); `  `
 })

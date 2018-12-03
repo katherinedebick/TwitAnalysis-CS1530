@@ -139,18 +139,8 @@ app.post('/showResults', function(req, res){
 
       var oneWordSentiment = getOneWordSentiment(scoreAverage);
 
-      //Create Graph and Send it to Plotly
-      var general_plot = {
-        x: masterObject.sequenceNums,
-        y: scores,
-        type: "scatter"
-      };
-      var data = [general_plot];
-      var graphOptions = {filename: "tweetplot", fileopt: "overwrite"};
-      plotly.plot(data, graphOptions, function(err, msg){
-        console.log(msg);
-        res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets, oneWordSentiment: oneWordSentiment, searchPhrase: temp_query.search_word});
-      });
+      graph_results(scores, masterObject.sequenceNums, numPosTweets, numNegTweets, numNeutralTweets);
+      res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets, oneWordSentiment: oneWordSentiment, searchPhrase: temp_query.search_word});
       // render results page
       //res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets});
       console.log('locations grabbed: ' + weatherCounter);
@@ -237,6 +227,31 @@ function scoreTweets(tweets, afinnArr){
   return scores;
 }
 
+function graph_results(scores, sequence, numPosTweets, numNegTweets, numNeutralTweets){
+  //Create Graph and Send it to Plotly
+  var general_plot = {
+    x: sequence,
+    y: scores,
+    type: "scatter"
+  };
+  var data = [general_plot];
+  var graphOptions = {filename: "tweetplot", fileopt: "overwrite"};
+  plotly.plot(data, graphOptions, function(err, msg){
+    console.log(msg);
+  });
+
+  var pie_chart = [{
+    values: [numPosTweets, numNegTweets, numNeutralTweets],
+    labels:['Positive Tweets', 'Negative Tweets', 'Neutral Tweets'],
+    type: 'pie'
+  }];
+  var pie_data = [pie_chart];
+
+  var graphOptions2 = {filename: 'tweet_pie', fileopt: 'overwrite'};
+  plotly.plot(pie_data, graphOptions2, function(err, msg){
+    console.log(msg);
+  });
+}
 
 function renderPage(tweets, res, scores, pageName){
   //console.log('TWEETS FROM RENDER FN: ' + tweets);

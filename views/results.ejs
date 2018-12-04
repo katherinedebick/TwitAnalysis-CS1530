@@ -29,18 +29,28 @@
     <!-- end of row div -->
     <div class="row" id="row2" style="margin-top:2%; margin-bottom-2%">
       <div class="col-sm" style="background-color:#8781bd">
-        <h4 style="margin-top:2%; color:#fff;font-family:changa">Next Data Section:</h4>
-        <p>These columns can be differently proportion or increased or decreased.</p>
+        <h4 style="margin-top:2%; color:#fff;font-family:changa">Most Extreme Tweets:</h4>
+        <ul class="list-group shadow-sm" style="margin-bottom: 2%">
+          <li class="list-group-item">Most Positive Tweet: <%= extreme_tweets[0] %></li>
+          <li class="list-group-item">Most Negative Tweet: <%= extreme_tweets[1] %></li>
+          <li class="list-group-item">Most Neutral Tweet: <%= extreme_tweets[2] %></li>
+        </ul>
       </div>
       <div class="col-lg" style="padding-top: 2%; background-color:#eee">
-        Put a general graph here..
+        <h4 style="margin-top:1%; color:#7069ae;font-family:changa">Negativity/Positivity Counts:</h4>
+        <iframe width="700" height="400" frameborder="0" scrolling="no" src="//plot.ly/~socialpulse/9.embed"></iframe>
       </div>
     </div>
     <!-- end of row div -->
     <div class="row" id="row3" style="margin-top:2%; margin-bottom-2%">
       <div class="col-sm" style="background-color:#8781bd">
-        <h4 style="margin-top:2%; color:#fff;font-family:changa">Next Data Section</h4>
-        <p>More tweet data.</p>
+        <h4 style="margin-top:2%; color:#fff;font-family:changa">Emotional Words:</h4>
+        <ul class="list-group shadow-sm" style="margin-bottom: 2%">
+          <li class="list-group-item"><%= extreme_words[0] %>...<%= extreme_words[1] %>...<%= extreme_words[2] %>...<%= extreme_words[3] %>...<%= extreme_words[4] %>...<%= extreme_words[5] %>...<%= extreme_words[6] %>...<%= extreme_words[7] %>...<%= extreme_words[8] %>...<%= extreme_words[9] %>...<%= extreme_words[10] %>...<%= extreme_words[11] %>...<%= extreme_words[12] %>...</li>
+          <li class="list-group-item"><%= extreme_words[16] %>...<%= extreme_words[17] %>...<%= extreme_words[18] %>...<%= extreme_words[19] %>...<%= extreme_words[20] %>...<%= extreme_words[21] %>...<%= extreme_words[22] %>...<%= extreme_words[23] %>...<%= extreme_words[24] %>...<%= extreme_words[25] %>...<%= extreme_words[26] %>...<%= extreme_words[27] %>...<%= extreme_words[28] %>...</li>
+          <li class="list-group-item"><%= extreme_words[32] %>...<%= extreme_words[33] %>...<%= extreme_words[34] %>...<%= extreme_words[35] %>...<%= extreme_words[36] %>...<%= extreme_words[37] %>...<%= extreme_words[38] %>...<%= extreme_words[39] %>...<%= extreme_words[40] %>...<%= extreme_words[41] %>...<%= extreme_words[42] %>...<%= extreme_words[43] %>...<%= extreme_words[44] %>...</li>
+          <li class="list-group-item"><%= extreme_words[13] %>...<%= extreme_words[14] %>...<%= extreme_words[15] %>...<%= extreme_words[29] %>...<%= extreme_words[30] %>...<%= extreme_words[31] %>...<%= extreme_words[45] %>...<%= extreme_words[46] %>...<%= extreme_words[47] %></li>
+        </ul>
       </div>
       <div class="col-lg" style="padding-top: 2%; background-color:#eee">
         Put a general graph here..

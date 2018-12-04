@@ -139,18 +139,15 @@ app.post('/showResults', function(req, res){
 
       var oneWordSentiment = getOneWordSentiment(scoreAverage);
 
-      //Create Graph and Send it to Plotly
-      var general_plot = {
-        x: masterObject.sequenceNums,
-        y: scores,
-        type: "scatter"
-      };
-      var data = [general_plot];
-      var graphOptions = {filename: "tweetplot", fileopt: "overwrite"};
-      plotly.plot(data, graphOptions, function(err, msg){
-        console.log(msg);
-        res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets, oneWordSentiment: oneWordSentiment, searchPhrase: temp_query.search_word});
-      });
+      graph_results(scores, masterObject.sequenceNums, numPosTweets, numNegTweets, numNeutralTweets);
+      extreme_tweets = getMostEmotionalTweets(masterObject.statusStrings, scores)
+      extreme_words = get_emotional_words(masterObject.statusStrings, afinnArr);
+
+      if(extreme_words > 20){
+        extreme_words = extreme_words.slice(0, 100);
+      }
+
+      res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets, oneWordSentiment: oneWordSentiment, searchPhrase: temp_query.search_word, extreme_tweets: extreme_tweets, extreme_words: extreme_words});
       // render results page
       //res.render(path.join(__dirname + '/views/results.ejs'), {tweets: masterObject.statusStrings, scores: scores, avg: scoreAverage, numNegTweets: numNegTweets, numPosTweets: numPosTweets, numNeutralTweets: numNeutralTweets});
       console.log('locations grabbed: ' + weatherCounter);
@@ -225,10 +222,35 @@ function getOneWordSentiment(score) {
   }
 }
 
+function getMostEmotionalTweets(tweets, scores){
+  var results = []; //0 = most positive 1 = most negative 2 = most neutral
+  var highest = scores[0];
+  var lowest = scores[0];
+  var neutral = scores[0];
+  for(var i=0; i<scores.length; i++){
+    //console.log("sannnity");
+    if(scores[i]>highest){
+      highest = scores[i];
+      results[0] = tweets[i];
+    }
+    if(scores[i]<lowest){
+      lowest = scores[i];
+      results[1] = tweets[i];
+    }
+    if(scores[i]==0){
+      neutral = scores[i];
+      results[2] = tweets[i];
+    }
+  }
+
+  return results;
+}
+
 function scoreTweets(tweets, afinnArr){
   let scores = [];
   for (var t in tweets) {
     var result = sentiment.analyze(tweets[t]);
+    //console.log(result.words);
     //console.log(result.score);
     //var score = helperFunctions.getScore(tweets[t], afinnArr);
     scores.push(result.score);
@@ -237,6 +259,49 @@ function scoreTweets(tweets, afinnArr){
   return scores;
 }
 
+function get_emotional_words(tweets, afinnArr){
+  var words = [];
+  for (var t in tweets){
+    var result = sentiment.analyze(tweets[t]);
+    var result = result.words
+    for(var r in result){
+      //&& afinnArr.includes(result[r])
+      //console.log(result[r])
+      if(!words.includes(result[r])){
+        //console.log("This word isn't in words:");
+        //console.log(result[r])
+        words.push(result[r]);
+      }
+    }
+  }
+  return words;
+}
+
+function graph_results(scores, sequence, numPosTweets, numNegTweets, numNeutralTweets){
+  //Create Graph and Send it to Plotly
+  var general_plot = {
+    x: sequence,
+    y: scores,
+    type: "scatter"
+  };
+  var data = [general_plot];
+  var graphOptions = {filename: "tweetplot", fileopt: "overwrite"};
+  plotly.plot(data, graphOptions, function(err, msg){
+    console.log(msg);
+  });
+
+  var pie_chart = [{
+    values: [numPosTweets, numNegTweets, numNeutralTweets],
+    labels:['Positive Tweets', 'Negative Tweets', 'Neutral Tweets'],
+    type: 'pie'
+  }];
+  var pie_data = [pie_chart];
+
+  var graphOptions2 = {filename: 'tweet_pie', fileopt: 'overwrite'};
+  plotly.plot(pie_data, graphOptions2, function(err, msg){
+    console.log(msg);
+  });
+}
 
 function renderPage(tweets, res, scores, pageName){
   //console.log('TWEETS FROM RENDER FN: ' + tweets);
@@ -244,6 +309,6 @@ function renderPage(tweets, res, scores, pageName){
 }
 
 
-app.listen(5000, function(){
+app.listen((process.env.PORT || 5000), function(){
   console.log('server started on Port 5000...'); `  `
 })
